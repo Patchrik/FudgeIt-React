@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fudge-It", "Fudge-It\Fudge-It.csproj", "{D722E976-B694-40C0-AAB4-601E99D3C848}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D722E976-B694-40C0-AAB4-601E99D3C848}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D722E976-B694-40C0-AAB4-601E99D3C848}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D722E976-B694-40C0-AAB4-601E99D3C848}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D722E976-B694-40C0-AAB4-601E99D3C848}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F6E427FE-6E3E-4821-8C7B-37ABA5CE5C8C}
+	EndGlobalSection
+EndGlobal
