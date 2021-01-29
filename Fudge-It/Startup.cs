@@ -70,6 +70,7 @@ namespace Fudge_It
             app.UseRouting();
 
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

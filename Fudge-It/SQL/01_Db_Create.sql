@@ -18,7 +18,7 @@ CREATE TABLE [UserProfile] (
   [FirstName] nvarchar(100),
   [LastName] nvarchar(100),
   [CreatedDate] datetime,
-  [Cashflow] float
+  [Cashflow] decimal
 )
 GO
 
@@ -28,7 +28,7 @@ CREATE TABLE [Expense] (
   [ExpenseDate] datetime,
   [Recurring] bit,
   [Need] bit,
-  [Cost] float,
+  [Cost] decimal,
   [UserProfileId] int
 )
 GO

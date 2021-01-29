@@ -12,7 +12,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [displayName, setDisplayName] = useState('');
+  const [cashflow, setCashflow] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
@@ -30,7 +30,7 @@ const Register = () => {
     const profile = {
       firstName,
       lastName,
-      displayName,
+      cashflow,
       email,
     };
     register(profile, password)
@@ -74,11 +74,11 @@ const Register = () => {
         </div>
         <div className="form-group">
           <Input
-            onChange={(e) => setDisplayName(e.target.value)}
+            onChange={(e) => setCashflow(e.target.value)}
             type="text"
             className="form-control"
-            name="displayName"
-            placeholder="Display Name"
+            name="cashflow"
+            placeholder="Monthly Income"
             required="required"
           />
         </div>

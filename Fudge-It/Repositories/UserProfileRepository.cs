@@ -20,8 +20,6 @@ namespace Fudge_It.Repositories
         public UserProfile GetByFirebaseUserId(string firebaseUserId)
         {
             return _context.UserProfile
-                .Include(up => up.UserType)
-                .Include(up => up.Post)
                 .FirstOrDefault(up => up.FirebaseUserId == firebaseUserId);
 
         }

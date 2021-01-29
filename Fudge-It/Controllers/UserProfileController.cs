@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Fudge_It.Models;
+using Fudge_It.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -26,8 +28,8 @@ namespace Fudge_It.Controllers
         [HttpPost]
         public IActionResult Post(UserProfile userProfile)
         {
-            userProfile.CreateDateTime = DateTime.Now;
-            userProfile.UserTypeId = UserType.AUTHOR_ID;
+            userProfile.CreatedDate = DateTime.Now;
+            
             _repo.Add(userProfile);
             return CreatedAtAction(
                 nameof(GetUserProfile),
