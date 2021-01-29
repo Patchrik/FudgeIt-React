@@ -1,9 +1,9 @@
 ﻿INSERT INTO [UserProfile]
-([FirstName], [LastName], [CreatedDate],[Cashflow])
+([FirebaseUserId], [Email], [FirstName], [LastName], [CreatedDate], [Cashflow])
 VALUES
-('Greg', 'Golden', '01-01-2021', 10000.00),
-('Sam', 'Silvers', '01-10-2021', 5000.00),
-('Becca', 'Bronze', '01-20-2021', 2500.00);
+('cJVrpOMpM1OsDDleqOwBqeL7Uln2','ggolden@mail.com','Greg', 'Golden', '01-01-2021', 10000.00),
+('F2o84k6NZTbLDtWhuj2A1dM7wIO2', 'ssilvers@mail.com', 'Sam', 'Silvers', '01-10-2021', 5000.00),
+('6i2Lo3dW8SS9HSF4trMO7Z9g2AW2', 'bbronze@mail.com', 'Becca', 'Bronze', '01-20-2021', 2500.00);
 
 INSERT INTO [Expense]
 ([Name], [ExpenseDate], [Need], [Recurring], [Cost], [UserProfileId])
