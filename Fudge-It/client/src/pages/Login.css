@@ -33,3 +33,11 @@
 .login-form .avatar img {
   width: 100%;
 }
+
+.login-avatar-bg {
+  background-color: #89b5f0;
+}
+
+.login-user-login-text {
+  color: #0a0d36;
+}

@@ -5,6 +5,7 @@ import { Button, Input } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { UserProfileContext } from '../providers/UserProfileProvider';
 import './Login.css';
+import fudgeitLogo from '../img/fudgeitLogo.png';
 
 const Register = () => {
   const { register } = useContext(UserProfileContext);
@@ -47,8 +48,8 @@ const Register = () => {
   return (
     <div className="login-form">
       <form onSubmit={handleSubmit}>
-        <div className="avatar bg-primary">
-          <img src="/quill.png" alt="Avatar" />
+        <div className="avatar login-avatar-bg">
+          <img src={fudgeitLogo} alt="Avatar" />
         </div>
         <h2 className="text-center">User Register</h2>
         <div className="form-group">

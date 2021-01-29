@@ -12,6 +12,8 @@ import {
   NavbarText,
 } from 'reactstrap';
 import { UserProfileContext } from '../providers/UserProfileProvider';
+import fudgeitLogo from '../img/fudgeitLogo.png';
+import './AppHeader.css';
 
 const AppHeader = () => {
   const { getCurrentUser, logout, isAdmin } = useContext(UserProfileContext);
@@ -30,17 +32,17 @@ const AppHeader = () => {
 
   return (
     <div>
-      <Navbar color="dark" dark expand="md">
+      <Navbar className="color-nav" dark expand="md">
         <NavbarBrand tag={Link} to="/">
           <img
             id="header-logo"
-            src="/quill.png"
+            src={fudgeitLogo}
             width="30"
             height="30"
             className="mr-1"
-            alt="Quill Logo"
+            alt="FudgeIt Logo"
           />
-          Tabloid
+          fudge it
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
@@ -66,12 +68,16 @@ const AppHeader = () => {
             ) : (
               <>
                 <NavItem>
-                  <NavLink to="/login" tag={Link}>
+                  <NavLink className="nav-bar-link-text" to="/login" tag={Link}>
                     Login
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink to="/register" tag={Link}>
+                  <NavLink
+                    className="nav-bar-link-text"
+                    to="/register"
+                    tag={Link}
+                  >
                     Register
                   </NavLink>
                 </NavItem>
