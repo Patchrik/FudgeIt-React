@@ -18,6 +18,12 @@ const Register = () => {
   const [confirm, setConfirm] = useState('');
   const history = useHistory();
 
+  let cashflowAsNumber = 0;
+
+  const convertCashflow = (string) => {
+    cashflowAsNumber = Number(string);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -36,7 +42,7 @@ const Register = () => {
     register(profile, password)
       .then((user) => {
         setLoading(false);
-        toast.info(`Welcome ${user.displayName}`);
+        toast.info(`Welcome ${user.firstName}`);
         history.push('/');
       })
       .catch((err) => {
@@ -74,8 +80,12 @@ const Register = () => {
         </div>
         <div className="form-group">
           <Input
-            onChange={(e) => setCashflow(e.target.value)}
-            type="text"
+            onChange={(e) => {
+              setCashflow(e.target.value);
+              convertCashflow(cashflow);
+              console.log(cashflow);
+            }}
+            type="number"
             className="form-control"
             name="cashflow"
             placeholder="Monthly Income"
