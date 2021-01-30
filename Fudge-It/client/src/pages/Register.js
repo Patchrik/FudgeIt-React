@@ -41,6 +41,7 @@ const Register = () => {
     };
     register(profile, password)
       .then((user) => {
+        debugger;
         setLoading(false);
         toast.info(`Welcome ${user.firstName}`);
         history.push('/');
@@ -83,7 +84,6 @@ const Register = () => {
             onChange={(e) => {
               setCashflow(e.target.value);
               convertCashflow(cashflow);
-              console.log(cashflow);
             }}
             type="number"
             className="form-control"
