@@ -5,6 +5,7 @@ import { Button, Container, Input } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { UserProfileContext } from '../providers/UserProfileProvider';
 import DashboardExpenseList from '../components/DashboardExpenseList';
+import DashboardExpensePieChart from '../components/DashboardExpensePieChart';
 
 const Dashboard = () => {
   const { getToken } = useContext(UserProfileContext);
@@ -12,7 +13,10 @@ const Dashboard = () => {
   return (
     <div className="Dashboard container">
       <div className="row">
-        <div className="col-md">I will hold the chart</div>
+        <div className="col-md">
+          I will hold the chart
+          <DashboardExpensePieChart />
+        </div>
         <div className="col-md">
           I will hold the expense list
           <DashboardExpenseList />
