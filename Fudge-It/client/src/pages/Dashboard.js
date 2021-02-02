@@ -26,7 +26,7 @@ const Dashboard = () => {
 
   const [formName, setFormName] = useState('');
   const [formDate, setFormDate] = useState(Date);
-  const [formCost, setFormCost] = useState(0);
+  const [formCost, setFormCost] = useState(0.0);
   const [formNeed, setFormNeed] = useState(false);
   const [formRecurring, setFormRecurring] = useState(false);
 
@@ -36,7 +36,7 @@ const Dashboard = () => {
     setAddingEx(!addingEx);
     setFormName('');
     setFormDate(Date);
-    setFormCost(0);
+    setFormCost(0.0);
     setFormNeed(false);
     setFormRecurring(false);
   };
@@ -91,14 +91,14 @@ const Dashboard = () => {
         console.log(expenseToAdd);
         setFormName('');
         setFormDate(Date);
-        setFormCost(0);
+        setFormCost(0.0);
         setFormNeed(false);
         setFormRecurring(false);
         getUsersExpenses();
       });
     });
   };
-
+  console.log();
   return (
     <div className="Dashboard container">
       <div className="column">
@@ -129,9 +129,7 @@ const Dashboard = () => {
           toggle={addingExToggle}
           className="DashBoard-Add-Ex-Modal"
         >
-          <ModalHeader toggle={addingExToggle}>
-            I'm the Modal header{' '}
-          </ModalHeader>
+          <ModalHeader toggle={addingExToggle}>Add A New Expense</ModalHeader>
           <ModalBody>
             <Form>
               <FormGroup>

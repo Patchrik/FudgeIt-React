@@ -8,15 +8,15 @@ VALUES
 INSERT INTO [Expense]
 ([Name], [ExpenseDate], [Need], [Recurring], [Cost], [UserProfileId])
 VALUES
-('Yacht Fees', '02-01-2021', 0, 1, 500, 1),
-('Sparkling Toilet Water', '02-17-2021', 0, 0, 150, 1),
+('Yacht Fees', '02-01-2021', 0, 1, 500.12, 1),
+('Sparkling Toilet Water', '02-17-2021', 0, 0, 150.69, 1),
 ('WinZip', '02-01-2021', 1, 0,  59.99, 1),
-('Tesla Payment', '02-01-2021', 1, 1, 250, 2),
-('Mortgage', '02-01-2021', 1, 1, 1000, 2),
-('Xbox Series X', '02-26-2021', 0, 0, 500, 2),
-('Rent', '02-01-2021', 1, 1, 1200, 3),
-('Car Payment', '02-01-2021', 1, 1, 120, 3),
-('Groceries', '02-01-2021', 1, 0, 35, 3);
+('Tesla Payment', '02-01-2021', 1, 1, 250.00, 2),
+('Mortgage', '02-01-2021', 1, 1, 1000.23, 2),
+('Xbox Series X', '02-26-2021', 0, 0, 524.37, 2),
+('Rent', '02-01-2021', 1, 1, 1100.78, 3),
+('Car Payment', '02-01-2021', 1, 1, 123.45, 3),
+('Groceries', '02-01-2021', 1, 0, 35.36, 3);
 
 INSERT INTO [Tag]
 ([Name], [UserProfileId], [CreatedDate])
