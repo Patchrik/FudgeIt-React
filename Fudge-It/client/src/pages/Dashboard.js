@@ -21,7 +21,7 @@ import DashboardExpensePieChart from '../components/DashboardExpensePieChart';
 import './Dashboard.css';
 
 const Dashboard = () => {
-  const { getToken } = useContext(UserProfileContext);
+  const { getToken, getCurrentUser } = useContext(UserProfileContext);
   const [addingEx, setAddingEx] = useState(false);
 
   const [formName, setFormName] = useState('');
@@ -29,6 +29,8 @@ const Dashboard = () => {
   const [formCost, setFormCost] = useState(0);
   const [formNeed, setFormNeed] = useState(false);
   const [formRecurring, setFormRecurring] = useState(false);
+
+  const [expenses, setExpenses] = useState([]);
 
   const addingExToggle = () => {
     setAddingEx(!addingEx);
@@ -43,7 +45,33 @@ const Dashboard = () => {
 
   const formRecurringToggle = () => setFormRecurring(!formRecurring);
 
-  const constructNewExpenseObj = () => {
+  const activeUser = getCurrentUser();
+
+  const getUsersExpenses = () => {
+    console.log('expense list made a fetch call');
+    getToken().then((token) =>
+      fetch(`/api/expense/${activeUser.id}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          if (res.status === 404) {
+            toast.error('Oops something went wrong with this expense api call');
+            return;
+          }
+          return res.json();
+        })
+        .then((data) => {
+          if (data !== undefined) {
+            setExpenses(data);
+          }
+        })
+    );
+  };
+
+  const saveNewExpense = () => {
     const expenseToAdd = {
       name: formName,
       expenseDate: formDate,
@@ -51,12 +79,24 @@ const Dashboard = () => {
       need: formNeed,
       recurring: formRecurring,
     };
-    console.log(expenseToAdd);
-    setFormName('');
-    setFormDate(Date);
-    setFormCost(0);
-    setFormNeed(false);
-    setFormRecurring(false);
+    getToken().then((token) => {
+      fetch(`api/expense`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(expenseToAdd),
+      }).then(() => {
+        console.log(expenseToAdd);
+        setFormName('');
+        setFormDate(Date);
+        setFormCost(0);
+        setFormNeed(false);
+        setFormRecurring(false);
+        getUsersExpenses();
+      });
+    });
   };
 
   return (
@@ -79,7 +119,10 @@ const Dashboard = () => {
           </Button>
         </div>
         <div className="my-2 col-md">
-          <DashboardExpenseList />
+          <DashboardExpenseList
+            getUsersExpenses={getUsersExpenses}
+            expensesState={expenses}
+          />
         </div>
         <Modal
           isOpen={addingEx}
@@ -158,7 +201,7 @@ const Dashboard = () => {
             <Button
               color="success"
               onClick={(e) => {
-                constructNewExpenseObj();
+                saveNewExpense();
                 setTimeout(() => {
                   addingExToggle();
                 }, 500);

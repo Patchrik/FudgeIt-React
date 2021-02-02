@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Fudge_It.Controllers
@@ -14,9 +15,11 @@ namespace Fudge_It.Controllers
     public class ExpenseController : ControllerBase
     {
         private readonly IExpenseRepository _repo;
-        public ExpenseController(IExpenseRepository repo)
+        private readonly IUserProfileRepository _userRepo;
+        public ExpenseController(IExpenseRepository repo, IUserProfileRepository userProfileRepo)
         {
             _repo = repo;
+            _userRepo = userProfileRepo;
         }
 
         [HttpGet("{userId}")]
@@ -29,14 +32,17 @@ namespace Fudge_It.Controllers
         [HttpPost]
         public IActionResult Post(Expense expense)
         {
-            //We might want to check to make sure this is a real value in the future
-            //if (expense.ExpenseDate == null)
-            //{
-            //    expense.ExpenseDate = DateTime.Now;
-            //}
+            expense.UserProfileId = GetCurrentUserProfile().Id;
 
             _repo.Add(expense);
             return CreatedAtAction("Get", new {id = expense.Id }, expense);
         }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userRepo.GetByFirebaseUserIdBare(firebaseUserId);
+        }
+
     }
 }

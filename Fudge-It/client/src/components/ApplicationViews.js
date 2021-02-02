@@ -13,6 +13,7 @@ const ApplicationViews = () => {
       <Route path="/" exact>
         {isLoggedIn ? <Dashboard /> : <Redirect to="/login" />}
       </Route>
+
       <Route path="/login">
         <Login />
       </Route>
