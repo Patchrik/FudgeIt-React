@@ -5,7 +5,7 @@ import { Pie } from 'react-chartjs-2';
 
 const DashboardExpensePieChart = () => {
   const { getToken, getCurrentUser } = useContext(UserProfileContext);
-  const [rawExpenseTagData, setRawExpenseTagData] = useState([]);
+  const [rawData, setRawData] = useState([]);
 
   const activeUser = getCurrentUser();
 
@@ -28,7 +28,8 @@ const DashboardExpensePieChart = () => {
         })
         .then((data) => {
           if (data !== undefined) {
-            setRawExpenseTagData(data);
+            setRawData(data);
+            render();
           }
         })
     );
@@ -38,21 +39,34 @@ const DashboardExpensePieChart = () => {
     getUsersExpenses();
   }, []);
 
-  const parseDataForChart = () => {};
-
   const data = {
-    labels: [],
+    labels: rawData.labels,
     dataset: [
       {
-        data: [],
+        label: 'My First dataset',
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(75,192,192,1)',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: rawData.sums,
       },
     ],
   };
-  console.log(rawExpenseTagData);
-  return (
-    <div>
-      <p>I am a pie chart. Just BELIEVE!</p>
-    </div>
-  );
+  console.log(rawData);
+  console.log(rawData.labels);
+  console.log(rawData.sums);
+  const render = () => {
+    return (
+      <div>
+        <Pie data={data} />
+      </div>
+    );
+  };
+  return render();
 };
 export default DashboardExpensePieChart;
