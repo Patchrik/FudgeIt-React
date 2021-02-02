@@ -1,15 +1,25 @@
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { UserProfileContext } from '../providers/UserProfileProvider';
-import { Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 
 const DashboardExpensePieChart = () => {
   const { getToken, getCurrentUser } = useContext(UserProfileContext);
-  const [rawData, setRawData] = useState([]);
+  const [rawData, setRawData] = useState({});
 
   const activeUser = getCurrentUser();
 
+  const chartColors = [
+    '#BEDB39',
+    '#BDD684',
+    '#588F27',
+    '#33691E',
+    '#67CC8E',
+    '#00796B',
+  ];
+
   const getUsersExpenses = () => {
+    console.log('expense chart made a fetch call');
     getToken().then((token) =>
       fetch(`/api/dashboard/dashchart`, {
         method: 'GET',
@@ -41,29 +51,26 @@ const DashboardExpensePieChart = () => {
 
   const data = {
     labels: rawData.labels,
-    dataset: [
+    datasets: [
       {
-        label: 'My First dataset',
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
-        pointBorderWidth: 1,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-        pointHoverBorderColor: 'rgba(220,220,220,1)',
-        pointHoverBorderWidth: 2,
-        pointRadius: 1,
-        pointHitRadius: 10,
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: chartColors,
+        hoverOffset: 1,
+        hoverBorderColor: '#45BF55',
+        hoverBorderWidth: 3,
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
         data: rawData.sums,
       },
     ],
   };
-  console.log(rawData);
-  console.log(rawData.labels);
-  console.log(rawData.sums);
+
   const render = () => {
+    console.log('expense chart rendered');
     return (
       <div>
-        <Pie data={data} />
+        <Doughnut data={data} height={400} width={600} />
       </div>
     );
   };

@@ -16,6 +16,7 @@ const DashboardExpenseList = () => {
   }, []);
 
   const getUsersExpenses = () => {
+    console.log('expense list made a fetch call');
     getToken().then((token) =>
       fetch(`/api/expense/${activeUser.id}`, {
         method: 'GET',
@@ -37,7 +38,7 @@ const DashboardExpenseList = () => {
         })
     );
   };
-  console.log(expenses);
+  console.log('expense list rendered');
   return (
     <div className="Dashboard-Expense-List">
       <ul className="list-group">
