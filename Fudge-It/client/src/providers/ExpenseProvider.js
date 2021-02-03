@@ -35,12 +35,24 @@ export const ExpenseProvider = (props) => {
     );
   };
 
+  const deleteExpense = (expenseId) => {
+    getToken().then((token) => {
+      fetch(`/api/expense/${expenseId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    });
+  };
+
   return (
     <ExpenseContext.Provider
       value={{
         expenses,
         setExpenses,
         getUsersExpenses,
+        deleteExpense,
       }}
     >
       {props.children}

@@ -19,10 +19,10 @@ import { ExpenseContext } from "../providers/ExpenseProvider";
 
 const ExpenseListItem = ({ expense }) => {
   const { getToken, getCurrentUser } = useContext(UserProfileContext);
-  const { getUsersExpenses } = useContext(ExpenseContext);
+  const { getUsersExpenses, deleteExpense } = useContext(ExpenseContext);
 
+  ////////////////// This is state for the editing Modal /////////////////////////////
   const [editingEx, setEditingEx] = useState(false);
-
   const [editFormName, setEditFormName] = useState(expense.name);
   const [editFormDate, setEditFormDate] = useState(
     formatDate(expense.expenseDate)
@@ -30,7 +30,9 @@ const ExpenseListItem = ({ expense }) => {
   const [editFormCost, setEditFormCost] = useState(expense.cost);
   const [editFormNeed, setEditFormNeed] = useState(expense.need);
   const [editFormRecurring, setEditFormRecurring] = useState(expense.recurring);
+  ////////////////////////////////////////////////////////////////////////////////////
 
+  // These are functions to toggle the booleans related to the edit modal ////////////
   const editFormNeedToggle = () => setEditFormNeed(!editFormNeed);
 
   const editFormRecurringToggle = () =>
@@ -39,6 +41,9 @@ const ExpenseListItem = ({ expense }) => {
   const toggleEditingEx = () => {
     setEditingEx(!editingEx);
   };
+  ////////////////////////////////////////////////////////////////////////////////
+
+  // This function creates a new Expense obj from the edit form's state and then makes a fetch call
   const editExpense = (expenseId) => {
     const user = getCurrentUser();
     const editedExpense = {
@@ -64,7 +69,14 @@ const ExpenseListItem = ({ expense }) => {
       });
     });
   };
-  console.log(expense);
+  // /////////////////////////////////////////////////////////////////////////////////////////////
+
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const toggleDeleteModal = () => {
+    setDeleteModal(!deleteModal);
+  };
+
   return (
     <div
       className="justify-content-around row align-items-center"
@@ -87,8 +99,11 @@ const ExpenseListItem = ({ expense }) => {
       )}
       <ButtonGroup className="align-self-end">
         <Button onClick={toggleEditingEx}>EDIT</Button>
-        <Button color="danger">DELETE</Button>
+        <Button color="danger" onClick={toggleDeleteModal}>
+          DELETE
+        </Button>
       </ButtonGroup>
+      {/* This is the Modal for adding a new expense */}
       <Modal
         isOpen={editingEx}
         toggle={toggleEditingEx}
@@ -173,6 +188,44 @@ const ExpenseListItem = ({ expense }) => {
             block
           >
             Yeet
+          </Button>
+        </ModalFooter>
+      </Modal>
+      {/* This will be the confirm delete modal */}
+      <Modal isOpen={deleteModal}>
+        <ModalHeader>Delete This Expense?</ModalHeader>
+        <ModalBody>
+          <div
+            className="justify-content-around row align-items-center"
+            key={expense.id}
+          >
+            <span className="mx-auto">{expense.name}</span>{" "}
+            <span className="mx-auto">${expense.cost}</span>
+            <span className="mx-auto"> {formatDate(expense.expenseDate)} </span>
+            <span className="mx-auto">
+              {expense.recurring ? <FontAwesomeIcon icon={faRedo} /> : null}
+            </span>
+            {expense.need ? (
+              <span className="mx-auto badge badge-pill badge-success d-inline-flex justify-content-start">
+                Need
+              </span>
+            ) : (
+              <span className="mx-auto badge badge-pill badge-secondary d-inline-flex justify-content-start">
+                Want
+              </span>
+            )}
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            color="danger"
+            onClick={(e) => {
+              deleteExpense(expense.id);
+              toggleDeleteModal();
+              getUsersExpenses();
+            }}
+          >
+            DELETE
           </Button>
         </ModalFooter>
       </Modal>

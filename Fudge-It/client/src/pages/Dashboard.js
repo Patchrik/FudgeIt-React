@@ -47,8 +47,6 @@ const Dashboard = () => {
 
   const formRecurringToggle = () => setFormRecurring(!formRecurring);
 
-  const activeUser = getCurrentUser();
-
   const saveNewExpense = () => {
     const expenseToAdd = {
       name: formName,
