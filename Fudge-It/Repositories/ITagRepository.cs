@@ -7,6 +7,12 @@ namespace Fudge_It.Repositories
     {
         List<Tag> GetTagsByUserProfileId(int userProfileId);
 
+        public Tag GetById(int id);
+
         void Add(Tag tag);
+
+        public void Update(Tag tag);
+
+        public void Delete(int id);
     }
 }

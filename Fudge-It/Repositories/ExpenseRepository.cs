@@ -42,15 +42,15 @@ namespace Fudge_It.Repositories
 
         public void Delete(int id)
         {
-            var post = GetById(id);
+            var expense = GetById(id);
 
-            var tags = post.ExpenseTags;
+            var tags = expense.ExpenseTags;
             foreach (var ExpTag in tags)
             {
                 _context.ExpenseTag.Remove(ExpTag);
             }
 
-            _context.Expense.Remove(post);
+            _context.Expense.Remove(expense);
             _context.SaveChanges();
         }
     }
