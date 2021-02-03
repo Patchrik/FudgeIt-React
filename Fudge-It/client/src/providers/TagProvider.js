@@ -29,6 +29,7 @@ export const TagProvider = (props) => {
         .then((data) => {
           if (data !== undefined) {
             setTags(data);
+            console.log(tags);
           }
         })
     );
@@ -36,7 +37,7 @@ export const TagProvider = (props) => {
 
   const deleteTag = (tagId) => {
     getToken().then((token) => {
-      fetch(`/api/expense/${tagId}`, {
+      fetch(`/api/tag/${tagId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

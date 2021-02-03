@@ -6,6 +6,8 @@ import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import ExpenseManager from "../pages/ExpenseManager";
 import { ExpenseProvider } from "../providers/ExpenseProvider";
+import { TagProvider } from "../providers/TagProvider";
+import TagManager from "../pages/TagManager";
 
 const ApplicationViews = () => {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -22,6 +24,12 @@ const ApplicationViews = () => {
         <ExpenseProvider>
           {isLoggedIn ? <ExpenseManager /> : <Redirect to="/login" />}
         </ExpenseProvider>
+      </Route>
+
+      <Route path="/tags" exact>
+        <TagProvider>
+          {isLoggedIn ? <TagManager /> : <Redirect to="/login" />}
+        </TagProvider>
       </Route>
 
       <Route path="/login">

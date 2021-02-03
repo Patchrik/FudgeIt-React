@@ -30,6 +30,7 @@ namespace Fudge_It.Repositories
 
         public void Add(Tag tag)
         {
+
             _context.Add(tag);
             _context.SaveChanges();
         }
