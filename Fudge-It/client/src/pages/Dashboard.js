@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
-import { toast } from 'react-toastify';
-import { useHistory } from 'react-router-dom';
+import React, { useContext, useState } from "react";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 import {
   Button,
   Col,
@@ -13,28 +13,30 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-} from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { UserProfileContext } from '../providers/UserProfileProvider';
-import DashboardExpenseList from '../components/DashboardExpenseList';
-import DashboardExpensePieChart from '../components/DashboardExpensePieChart';
-import './Dashboard.css';
+} from "reactstrap";
+import { Link } from "react-router-dom";
+import { UserProfileContext } from "../providers/UserProfileProvider";
+import { ExpenseContext } from "../providers/ExpenseProvider";
+import DashboardExpenseList from "../components/DashboardExpenseList";
+import DashboardExpensePieChart from "../components/DashboardExpensePieChart";
+import "./Dashboard.css";
 
 const Dashboard = () => {
   const { getToken, getCurrentUser } = useContext(UserProfileContext);
+  const { getUsersExpenses } = useContext(ExpenseContext);
   const [addingEx, setAddingEx] = useState(false);
 
-  const [formName, setFormName] = useState('');
+  const [formName, setFormName] = useState("");
   const [formDate, setFormDate] = useState(Date);
   const [formCost, setFormCost] = useState(0.0);
   const [formNeed, setFormNeed] = useState(false);
   const [formRecurring, setFormRecurring] = useState(false);
 
-  const [expenses, setExpenses] = useState([]);
+  // const [expenses, setExpenses] = useState([]);
 
   const addingExToggle = () => {
     setAddingEx(!addingEx);
-    setFormName('');
+    setFormName("");
     setFormDate(Date);
     setFormCost(0.0);
     setFormNeed(false);
@@ -44,32 +46,6 @@ const Dashboard = () => {
   const formNeedToggle = () => setFormNeed(!formNeed);
 
   const formRecurringToggle = () => setFormRecurring(!formRecurring);
-
-  const activeUser = getCurrentUser();
-
-  const getUsersExpenses = () => {
-    console.log('expense list made a fetch call');
-    getToken().then((token) =>
-      fetch(`/api/expense/${activeUser.id}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((res) => {
-          if (res.status === 404) {
-            toast.error('Oops something went wrong with this expense api call');
-            return;
-          }
-          return res.json();
-        })
-        .then((data) => {
-          if (data !== undefined) {
-            setExpenses(data);
-          }
-        })
-    );
-  };
 
   const saveNewExpense = () => {
     const expenseToAdd = {
@@ -81,15 +57,15 @@ const Dashboard = () => {
     };
     getToken().then((token) => {
       fetch(`api/expense`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(expenseToAdd),
       }).then(() => {
         console.log(expenseToAdd);
-        setFormName('');
+        setFormName("");
         setFormDate(Date);
         setFormCost(0.0);
         setFormNeed(false);
@@ -111,7 +87,7 @@ const Dashboard = () => {
             size="lg"
             block
             onClick={() => {
-              console.log('What up boy you want a new expense?');
+              console.log("What up boy you want a new expense?");
               addingExToggle();
             }}
           >
@@ -119,11 +95,9 @@ const Dashboard = () => {
           </Button>
         </div>
         <div className="my-2 col-md">
-          <DashboardExpenseList
-            getUsersExpenses={getUsersExpenses}
-            expensesState={expenses}
-          />
+          <DashboardExpenseList />
         </div>
+        {/* Here is the Adding Modal */}
         <Modal
           isOpen={addingEx}
           toggle={addingExToggle}
