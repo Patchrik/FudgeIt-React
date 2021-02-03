@@ -11,5 +11,6 @@ namespace Fudge_It.Models
         public string Name { get; set; }
         public int UserProfileId { get; set; }
         public DateTime CreatedDate { get; set; }
+        public List<ExpenseTag> ExpenseTags { get; set; }
     }
 }
