@@ -24,6 +24,13 @@ namespace Fudge_It.Repositories
 
         }
 
+        public UserProfile GetByFirebaseUserIdBare(string firebaseUserId)
+        {
+            return _context.UserProfile
+                .FirstOrDefault(up => up.FirebaseUserId == firebaseUserId);
+
+        }
+
         public void Add(UserProfile userProfile)
         {
             _context.Add(userProfile);

@@ -12,7 +12,7 @@ namespace Fudge_It.Models
         public DateTime ExpenseDate { get; set; }
         public bool Recurring { get; set; }
         public bool Need { get; set; }
-        public float Cost { get; set; }
+        public decimal Cost { get; set; }
         public int UserProfileId { get; set; }
     }
 }

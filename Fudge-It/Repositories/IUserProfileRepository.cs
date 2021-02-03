@@ -10,5 +10,6 @@ namespace Fudge_It.Repositories
     {
         void Add(UserProfile userProfile);
         UserProfile GetByFirebaseUserId(string firebaseUserId);
+        UserProfile GetByFirebaseUserIdBare(string firebaseUserId);
     }
 }

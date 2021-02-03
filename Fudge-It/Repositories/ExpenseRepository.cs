@@ -19,7 +19,7 @@ namespace Fudge_It.Repositories
 
         public List<Expense> GetExpensesByUserProfileId(int userProfileId)
         {
-            return _context.Expense.Where(up => up.UserProfileId == userProfileId).ToList();
+            return _context.Expense.Where(exp => exp.UserProfileId == userProfileId).OrderByDescending(exp => exp.ExpenseDate).ToList();
 
         }
 

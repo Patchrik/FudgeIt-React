@@ -5,7 +5,9 @@ namespace Fudge_It.Repositories
 {
     public interface IExpenseTagRepository
     {
-        List<ExpenseTag> GetExpenseTagsByExpenseId(int expenseId);
+        public List<ExpenseTag> GetAllExpenseTags();
+
+        List<ExpenseTag> GetExpenseTagsByTagId(int tagId);
 
         void Add(ExpenseTag exTag);
 

@@ -32,6 +32,9 @@ namespace Fudge_It
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
+            services.AddTransient<IExpenseRepository, ExpenseRepository>();
+            services.AddTransient<ITagRepository, TagRepository>();
+            services.AddTransient<IExpenseTagRepository, ExpenseTagRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

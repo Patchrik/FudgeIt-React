@@ -17,10 +17,14 @@ namespace Fudge_It.Repositories
             _context = context;
         }
 
-        public List<ExpenseTag> GetExpenseTagsByExpenseId(int expenseId)
+        public List<ExpenseTag> GetAllExpenseTags()
         {
-            return _context.ExpenseTag.Where(exTag => exTag.ExpenseId == expenseId).ToList();
+            return _context.ExpenseTag.Include(ext => ext.Tag).Include(ext => ext.Expense).ToList();
+        }
 
+        public List<ExpenseTag> GetExpenseTagsByTagId(int tagId)
+        {
+            return _context.ExpenseTag.Include(ext => ext.Expense).Where(ext => ext.TagId == tagId).ToList();
         }
 
         public void Add(ExpenseTag exTag)
@@ -28,5 +32,7 @@ namespace Fudge_It.Repositories
             _context.Add(exTag);
             _context.SaveChanges();
         }
+
+        
     }
 }
