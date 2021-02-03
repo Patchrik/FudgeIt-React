@@ -38,6 +38,44 @@ namespace Fudge_It.Controllers
             return CreatedAtAction("Get", new {id = expense.Id }, expense);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, Expense expense)
+        {
+            if (id != expense.Id)
+            {
+                return BadRequest();
+            }
+
+            var user = GetCurrentUserProfile();
+
+            if (user.Id != expense.UserProfileId)
+            {
+                return Unauthorized();
+            }
+
+            _repo.Update(expense);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id) 
+        {
+            var user = GetCurrentUserProfile();
+            var expenseToDelete = _repo.GetById(id);
+
+            if (user.Id != expenseToDelete.UserProfileId )
+            {
+                return Unauthorized();
+            }
+
+            _repo.Delete(id);
+
+            return NoContent();
+
+        }
+
+
+        // This is a simple util to get the current user's profile to check if they're authorized to make the change.
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

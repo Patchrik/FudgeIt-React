@@ -14,5 +14,6 @@ namespace Fudge_It.Models
         public bool Need { get; set; }
         public decimal Cost { get; set; }
         public int UserProfileId { get; set; }
+        public List<ExpenseTag> ExpenseTags { get; set; }
     }
 }

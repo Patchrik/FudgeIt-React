@@ -8,37 +8,10 @@ import { faRedo } from '@fortawesome/free-solid-svg-icons';
 const DashboardExpenseList = ({ getUsersExpenses, expensesState }) => {
   const { getToken, getCurrentUser } = useContext(UserProfileContext);
 
-  // const [expenses, setExpenses] = useState([]);
-
-  // const activeUser = getCurrentUser();
-
   useEffect((_) => {
     getUsersExpenses();
   }, []);
 
-  // const getUsersExpenses = () => {
-  //   console.log('expense list made a fetch call');
-  //   getToken().then((token) =>
-  //     fetch(`/api/expense/${activeUser.id}`, {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //       .then((res) => {
-  //         if (res.status === 404) {
-  //           toast.error('Oops something went wrong with this expense api call');
-  //           return;
-  //         }
-  //         return res.json();
-  //       })
-  //       .then((data) => {
-  //         if (data !== undefined) {
-  //           setExpenses(data);
-  //         }
-  //       })
-  //   );
-  // };
   console.log('expense list rendered');
   return (
     <div className="Dashboard-Expense-List">

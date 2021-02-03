@@ -8,7 +8,10 @@ namespace Fudge_It.Repositories
 {
     public interface IExpenseRepository
     {
-        void Add(Expense expense);
         List<Expense> GetExpensesByUserProfileId(int userProfileId);
+        public Expense GetById(int id);
+        void Add(Expense expense);
+        public void Update(Expense expense);
+        public void Delete(int id);
     }
 }
