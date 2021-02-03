@@ -15,9 +15,11 @@ import {
 } from "reactstrap";
 import formatDate from "../utils/dateFormatter";
 import { UserProfileContext } from "../providers/UserProfileProvider";
+import { ExpenseContext } from "../providers/ExpenseProvider";
 
 const ExpenseListItem = ({ expense }) => {
   const { getToken, getCurrentUser } = useContext(UserProfileContext);
+  const { getUsersExpenses } = useContext(ExpenseContext);
 
   const [editingEx, setEditingEx] = useState(false);
 
@@ -58,7 +60,7 @@ const ExpenseListItem = ({ expense }) => {
         },
         body: JSON.stringify(editedExpense),
       }).then(() => {
-        console.log("should've edited a comment refresh to check");
+        getUsersExpenses();
       });
     });
   };
