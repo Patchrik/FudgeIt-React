@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { UserProfileContext } from '../providers/UserProfileProvider';
 import formatDate from '../utils/dateFormatter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

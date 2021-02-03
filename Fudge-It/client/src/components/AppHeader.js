@@ -50,19 +50,26 @@ const AppHeader = () => {
             {user ? (
               <>
                 <NavItem>
-                  <NavLink to="/explore" tag={Link}>
-                    Explore
+                  <NavLink className="nav-bar-link-text" to="/" tag={Link}>
+                    Dashboard
                   </NavLink>
                 </NavItem>
-                {isAdmin() && (
-                  <NavItem>
-                    <NavLink to="/categories" tag={Link}>
-                      Categories
-                    </NavLink>
-                  </NavItem>
-                )}
                 <NavItem>
-                  <NavLink onClick={logoutAndReturn}>Logout</NavLink>
+                  <NavLink
+                    className="nav-bar-link-text"
+                    to="/expenses"
+                    tag={Link}
+                  >
+                    Expenses
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className="nav-bar-link-text"
+                    onClick={logoutAndReturn}
+                  >
+                    Logout
+                  </NavLink>
                 </NavItem>
               </>
             ) : (
@@ -86,7 +93,7 @@ const AppHeader = () => {
           </Nav>
           {user ? (
             <NavbarText className="d-sm-none d-md-block">
-              Welcome {user.displayName}
+              Welcome {user.firstName + ' ' + user.lastName}
             </NavbarText>
           ) : null}
         </Collapse>

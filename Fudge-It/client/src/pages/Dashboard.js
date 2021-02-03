@@ -124,6 +124,7 @@ const Dashboard = () => {
             expensesState={expenses}
           />
         </div>
+        {/* Here is the Adding Modal */}
         <Modal
           isOpen={addingEx}
           toggle={addingExToggle}
