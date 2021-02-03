@@ -23,9 +23,34 @@ namespace Fudge_It.Repositories
 
         }
 
+        public Expense GetById(int id)
+        {
+            return _context.Expense.Include(exp => exp.ExpenseTags).ThenInclude(expTag => expTag.Tag).Where(exp => exp.Id == id).FirstOrDefault();
+        }
+
         public void Add(Expense expense)
         {
             _context.Add(expense);
+            _context.SaveChanges();
+        }
+
+        public void Update(Expense expense)
+        {
+            _context.Entry(expense).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {
+            var post = GetById(id);
+
+            var tags = post.ExpenseTags;
+            foreach (var ExpTag in tags)
+            {
+                _context.ExpenseTag.Remove(ExpTag);
+            }
+
+            _context.Expense.Remove(post);
             _context.SaveChanges();
         }
     }
