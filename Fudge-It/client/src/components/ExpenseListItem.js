@@ -1,6 +1,6 @@
-import { faRedo } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import { faRedo } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState, useContext } from "react";
 import {
   Button,
   ButtonGroup,
@@ -12,17 +12,22 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-} from 'reactstrap';
-import formatDate from '../utils/dateFormatter';
+} from "reactstrap";
+import formatDate from "../utils/dateFormatter";
+import { UserProfileContext } from "../providers/UserProfileProvider";
 
 const ExpenseListItem = ({ expense }) => {
+  const { getToken, getCurrentUser } = useContext(UserProfileContext);
+
   const [editingEx, setEditingEx] = useState(false);
 
-  const [editFormName, setEditFormName] = useState(expense);
-  const [editFormDate, setEditFormDate] = useState(Date);
-  const [editFormCost, setEditFormCost] = useState(0.0);
-  const [editFormNeed, setEditFormNeed] = useState(false);
-  const [editFormRecurring, setEditFormRecurring] = useState(false);
+  const [editFormName, setEditFormName] = useState(expense.name);
+  const [editFormDate, setEditFormDate] = useState(
+    formatDate(expense.expenseDate)
+  );
+  const [editFormCost, setEditFormCost] = useState(expense.cost);
+  const [editFormNeed, setEditFormNeed] = useState(expense.need);
+  const [editFormRecurring, setEditFormRecurring] = useState(expense.recurring);
 
   const editFormNeedToggle = () => setEditFormNeed(!editFormNeed);
 
@@ -32,13 +37,38 @@ const ExpenseListItem = ({ expense }) => {
   const toggleEditingEx = () => {
     setEditingEx(!editingEx);
   };
+  const editExpense = (expenseId) => {
+    const user = getCurrentUser();
+    const editedExpense = {
+      id: expenseId,
+      name: editFormName,
+      expenseDate: editFormDate,
+      cost: editFormCost,
+      need: editFormNeed,
+      recurring: editFormRecurring,
+      userProfileId: user.id,
+    };
+
+    getToken().then((token) => {
+      fetch(`/api/expense/${expenseId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(editedExpense),
+      }).then(() => {
+        console.log("should've edited a comment refresh to check");
+      });
+    });
+  };
   console.log(expense);
   return (
     <div
       className="justify-content-around row align-items-center"
       key={expense.id}
     >
-      <span className="mx-auto">{expense.name}</span>{' '}
+      <span className="mx-auto">{expense.name}</span>{" "}
       <span className="mx-auto">${expense.cost}</span>
       <span className="mx-auto"> {formatDate(expense.expenseDate)} </span>
       <span className="mx-auto">
@@ -80,7 +110,7 @@ const ExpenseListItem = ({ expense }) => {
               <Label for="expenseDate">Expense Date</Label>
               <Input
                 required
-                type="date"
+                type="datetime"
                 name="exDate"
                 id="expenseDate"
                 placeholder="Expense Date"
@@ -132,7 +162,7 @@ const ExpenseListItem = ({ expense }) => {
           <Button
             color="success"
             onClick={(e) => {
-              console.log('you clicked yeet');
+              editExpense(expense.id);
               setTimeout(() => {
                 toggleEditingEx();
               }, 500);
