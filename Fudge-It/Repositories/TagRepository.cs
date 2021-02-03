@@ -19,7 +19,7 @@ namespace Fudge_It.Repositories
 
         public List<Tag> GetTagsByUserProfileId(int userProfileId)
         {
-            return _context.Tag.Where(tag => tag.UserProfileId == userProfileId).ToList();
+            return _context.Tag.Include(tag => tag.ExpenseTags).ThenInclude(expTag => expTag.Tag).Where(tag => tag.UserProfileId == userProfileId).ToList();
 
         }
 
