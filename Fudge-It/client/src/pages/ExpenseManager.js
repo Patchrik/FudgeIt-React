@@ -62,7 +62,6 @@ const ExpenseManager = () => {
         },
         body: JSON.stringify(expenseToAdd),
       }).then(() => {
-        console.log(expenseToAdd);
         setFormName("");
         setFormDate(Date);
         setFormCost(0.0);

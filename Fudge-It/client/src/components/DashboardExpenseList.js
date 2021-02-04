@@ -13,7 +13,6 @@ const DashboardExpenseList = () => {
     getUsersExpenses();
   }, []);
 
-  console.log("expense list rendered");
   return (
     <div className="Dashboard-Expense-List">
       <ul className="list-group">

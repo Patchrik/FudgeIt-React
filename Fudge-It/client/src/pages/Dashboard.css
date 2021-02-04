@@ -2,3 +2,11 @@
   flex: auto;
   justify-content: center;
 }
+
+.dashBoard-tag-dropdown-container {
+  justify-self: center;
+}
+
+.tag-drop-down-option {
+  text-align: center;
+}

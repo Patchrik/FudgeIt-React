@@ -11,5 +11,9 @@ namespace Fudge_It.Repositories
 
         void Add(ExpenseTag exTag);
 
+        public ExpenseTag GetById(int id);
+
+        public void Delete(int id);
+
     }
 }

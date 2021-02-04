@@ -35,7 +35,7 @@ namespace Fudge_It.Controllers
             expense.UserProfileId = GetCurrentUserProfile().Id;
 
             _repo.Add(expense);
-            return CreatedAtAction("Get", new {id = expense.Id }, expense);
+            return Ok(expense);
         }
 
         [HttpPut("{id}")]

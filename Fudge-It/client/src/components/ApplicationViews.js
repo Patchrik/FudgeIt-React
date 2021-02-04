@@ -7,6 +7,7 @@ import Dashboard from "../pages/Dashboard";
 import ExpenseManager from "../pages/ExpenseManager";
 import { ExpenseProvider } from "../providers/ExpenseProvider";
 import { TagProvider } from "../providers/TagProvider";
+import { ExpenseTagProvider } from "../providers/ExpenseTagProvider";
 import TagManager from "../pages/TagManager";
 
 const ApplicationViews = () => {
@@ -15,9 +16,13 @@ const ApplicationViews = () => {
   return (
     <Switch>
       <Route path="/" exact>
-        <ExpenseProvider>
-          {isLoggedIn ? <Dashboard /> : <Redirect to="/login" />}
-        </ExpenseProvider>
+        <ExpenseTagProvider>
+          <TagProvider>
+            <ExpenseProvider>
+              {isLoggedIn ? <Dashboard /> : <Redirect to="/login" />}
+            </ExpenseProvider>
+          </TagProvider>
+        </ExpenseTagProvider>
       </Route>
 
       <Route path="/expenses" exact>

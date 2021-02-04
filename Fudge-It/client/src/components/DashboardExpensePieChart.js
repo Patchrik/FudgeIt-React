@@ -24,7 +24,6 @@ const DashboardExpensePieChart = () => {
   ];
 
   const getUsersDashchart = () => {
-    console.log("expense chart made a fetch call");
     getToken().then((token) =>
       fetch(`/api/dashboard/dashchart`, {
         method: "GET",
@@ -95,8 +94,6 @@ const DashboardExpensePieChart = () => {
   };
 
   const render = () => {
-    console.log("expense chart rendered");
-    console.log(rawData);
     return (
       <div className="relative">
         <Doughnut

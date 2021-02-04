@@ -15,7 +15,6 @@ import { UserProfileContext } from "../providers/UserProfileProvider";
 import { TagContext } from "../providers/TagProvider";
 
 const TagListItem = ({ tag }) => {
-  debugger;
   const { getToken, getCurrentUser } = useContext(UserProfileContext);
   const { getUsersTags, deleteTag } = useContext(TagContext);
 

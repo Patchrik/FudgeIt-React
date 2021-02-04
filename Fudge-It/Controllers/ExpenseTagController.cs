@@ -19,12 +19,12 @@ namespace Fudge_It.Controllers
             _repo = repo;
         }
 
-        //[HttpGet("{tagId}")]
-        //public IActionResult GetUsersExpensesAndTag(int tagId)
-        //{
-        //    //this will return a list of the expenses that a user has.
-        //    return Ok(_repo.GetExpenseTagsByTagId(tagId));
-        //}
+        [HttpGet("{tagId}")]
+        public IActionResult GetUsersExpensesAndTag(int tagId)
+        {
+            //this will return a list of the expenses that a user has.
+            return Ok(_repo.GetExpenseTagsByTagId(tagId));
+        }
 
         [HttpPost]
         public IActionResult Post(ExpenseTag expenseTag)

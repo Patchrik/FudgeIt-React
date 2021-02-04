@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import {
@@ -17,6 +17,8 @@ import {
 import { Link } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import { ExpenseContext } from "../providers/ExpenseProvider";
+import { TagContext } from "../providers/TagProvider";
+import { ExpenseTagContext } from "../providers/ExpenseTagProvider";
 import DashboardExpenseList from "../components/DashboardExpenseList";
 import DashboardExpensePieChart from "../components/DashboardExpensePieChart";
 import "./Dashboard.css";
@@ -24,6 +26,9 @@ import "./Dashboard.css";
 const Dashboard = () => {
   const { getToken, getCurrentUser } = useContext(UserProfileContext);
   const { getUsersExpenses } = useContext(ExpenseContext);
+  const { saveExpenseTag } = useContext(ExpenseTagContext);
+  const { tags, getUsersTags } = useContext(TagContext);
+
   const [addingEx, setAddingEx] = useState(false);
 
   const [formName, setFormName] = useState("");
@@ -31,8 +36,11 @@ const Dashboard = () => {
   const [formCost, setFormCost] = useState(0.0);
   const [formNeed, setFormNeed] = useState(false);
   const [formRecurring, setFormRecurring] = useState(false);
+  const [tagDropdown, setTagDrowdown] = useState("");
 
-  // const [expenses, setExpenses] = useState([]);
+  useEffect(() => {
+    getUsersTags();
+  }, []);
 
   const addingExToggle = () => {
     setAddingEx(!addingEx);
@@ -63,18 +71,22 @@ const Dashboard = () => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(expenseToAdd),
-      }).then(() => {
-        console.log(expenseToAdd);
-        setFormName("");
-        setFormDate(Date);
-        setFormCost(0.0);
-        setFormNeed(false);
-        setFormRecurring(false);
-        getUsersExpenses();
-      });
+      })
+        .then((res) => res.json())
+        .then((newExpense) => {
+          console.log("This is the new expense", newExpense);
+          saveExpenseTag(parseInt(tagDropdown), newExpense.id);
+        })
+        .then((_) => {
+          setFormName("");
+          setFormDate(Date);
+          setFormCost(0.0);
+          setFormNeed(false);
+          setFormRecurring(false);
+          getUsersExpenses();
+        });
     });
   };
-  console.log();
   return (
     <div className="Dashboard container">
       <div className="column">
@@ -87,7 +99,6 @@ const Dashboard = () => {
             size="lg"
             block
             onClick={() => {
-              console.log("What up boy you want a new expense?");
               addingExToggle();
             }}
           >
@@ -140,6 +151,27 @@ const Dashboard = () => {
                   value={formCost}
                   onChange={(e) => setFormCost(parseFloat(e.target.value))}
                 />
+              </FormGroup>
+              <FormGroup className="dashBoard-tag-dropdown-container">
+                <FormGroup>
+                  <Input
+                    type="select"
+                    name="selectTagDropdown"
+                    id="tagDropdown"
+                    value={tagDropdown}
+                    onChange={(e) => {
+                      setTagDrowdown(e.target.value);
+                      console.log(tagDropdown);
+                    }}
+                  >
+                    <option value="0">Select a tag?</option>
+                    {tags.map((tag) => (
+                      <option key={tag.id} value={tag.id}>
+                        {tag.name}
+                      </option>
+                    ))}
+                  </Input>
+                </FormGroup>
               </FormGroup>
               <FormGroup className="dashBoard-checkbox-container" row>
                 <FormGroup check>

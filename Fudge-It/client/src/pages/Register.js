@@ -1,21 +1,21 @@
-import React, { useContext, useState } from 'react';
-import { toast } from 'react-toastify';
-import { useHistory } from 'react-router-dom';
-import { Button, Input } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { UserProfileContext } from '../providers/UserProfileProvider';
-import './Login.css';
-import fudgeitLogo from '../img/fudgeitLogo.png';
+import React, { useContext, useState } from "react";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import { Button, Input } from "reactstrap";
+import { Link } from "react-router-dom";
+import { UserProfileContext } from "../providers/UserProfileProvider";
+import "./Login.css";
+import fudgeitLogo from "../img/fudgeitLogo.png";
 
 const Register = () => {
   const { register } = useContext(UserProfileContext);
   const [loading, setLoading] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [cashflow, setCashflow] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirm, setConfirm] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [cashflow, setCashflow] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const history = useHistory();
 
   let cashflowAsNumber = 0;
@@ -28,7 +28,7 @@ const Register = () => {
     e.preventDefault();
 
     if (password !== confirm) {
-      toast.error('Passwords do not match');
+      toast.error("Passwords do not match");
       return;
     }
 
@@ -41,14 +41,13 @@ const Register = () => {
     };
     register(profile, password)
       .then((user) => {
-        debugger;
         setLoading(false);
         toast.info(`Welcome ${user.firstName}`);
-        history.push('/');
+        history.push("/");
       })
       .catch((err) => {
         setLoading(false);
-        toast.error('Invalid email');
+        toast.error("Invalid email");
       });
   };
 

@@ -27,12 +27,24 @@ namespace Fudge_It.Repositories
             return _context.ExpenseTag.Include(ext => ext.Expense).Where(ext => ext.TagId == tagId).ToList();
         }
 
+        public ExpenseTag GetById(int id)
+        {
+            return _context.ExpenseTag.Where(expTag => expTag.Id == id).FirstOrDefault();
+        }
+
         public void Add(ExpenseTag exTag)
         {
             _context.Add(exTag);
             _context.SaveChanges();
         }
 
+        public void Delete(int id) 
+        {
+            var expTag = GetById(id);
+
+            _context.ExpenseTag.Remove(expTag);
+            _context.SaveChanges();
+        }
         
     }
 }
