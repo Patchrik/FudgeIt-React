@@ -54,10 +54,9 @@ const DashboardExpensePieChart = () => {
   }, [expenses]);
 
   const data = {
-    labels: [],
+    labels: rawData.labels,
     datasets: [
       {
-        labels: rawData.labels,
         label: "Spending Based On Tags",
         data: rawData.sums,
         backgroundColor: chartColors,
@@ -65,6 +64,11 @@ const DashboardExpensePieChart = () => {
         hoverBorderColor: "#45BF55",
         hoverBorderWidth: 3,
       },
+    ],
+  };
+  const cashRemainingdata = {
+    labels: ["Money Spent", "Money Remaining"],
+    datasets: [
       {
         labels: ["Money Spent", "Money Remaining"],
         label: "Monthly Cashflow",
@@ -79,32 +83,43 @@ const DashboardExpensePieChart = () => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     legend: {
-      display: false,
+      display: true,
     },
-    tooltips: {
-      callbacks: {
-        label: function (tooltipItem, data) {
-          var dataset = data.datasets[tooltipItem.datasetIndex];
-          var index = tooltipItem.index;
-          return dataset.labels[index] + ": " + dataset.data[index];
-        },
-      },
-    },
+    // tooltips: {
+    //   callbacks: {
+    //     label: function (tooltipItem, data) {
+    //       var dataset = data.datasets[tooltipItem.datasetIndex];
+    //       var index = tooltipItem.index;
+    //       return dataset.labels[index] + ": " + dataset.data[index];
+    //     },
+    //   },
+    // },
   };
 
   const render = () => {
     return (
-      <div className="relative">
-        <Doughnut
-          data={data}
-          options={options}
-          height={400}
-          width={600}
-        ></Doughnut>
-        <div className="absolute-center text-center">
-          <p>${rawData.cashRemaining} Remaining</p>
+      <div className="container">
+        <div className="row">
+          <div className="col-sm">
+            <Doughnut
+              data={data}
+              width={200}
+              height={400}
+              options={options}
+            ></Doughnut>
+          </div>
+          <div className="col-sm">
+            <Doughnut
+              data={cashRemainingdata}
+              width={200}
+              height={400}
+              options={options}
+            ></Doughnut>
+          </div>
         </div>
+        <h3>You have ${rawData.cashRemaining} to spend.</h3>
       </div>
     );
   };
