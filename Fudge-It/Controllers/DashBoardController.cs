@@ -35,6 +35,12 @@ namespace Fudge_It.Controllers
 
             var currentUsersTags = _tagRepo.GetTagsByUserProfileId(currentUser.Id);
 
+            var currentUsersExpenses = _expenseRepo.GetExpensesByUserProfileId(currentUser.Id);
+
+            var moneySpent = currentUsersExpenses.Sum(exp => exp.Cost);
+
+            var remainingCash = currentUser.Cashflow - moneySpent;
+
             List<string> usersTagNameList = new List<string>();
             List<int> usersTagIdList = new List<int>();
             List<decimal> usersTagCostList = new List<decimal>();
@@ -62,7 +68,9 @@ namespace Fudge_It.Controllers
             var dashChart = new DashChart()
             {
                 Labels = usersTagNameList,
-                Sums = usersTagCostList
+                Sums = usersTagCostList,
+                MoneySpent = moneySpent,
+                CashRemaining = remainingCash,
             };
             return Ok(dashChart);
         }

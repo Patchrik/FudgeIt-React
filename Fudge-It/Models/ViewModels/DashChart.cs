@@ -9,5 +9,7 @@ namespace Fudge_It.Models.ViewModels
     {
         public List<decimal> Sums { get; set; }
         public List<string> Labels { get; set; }
+        public decimal MoneySpent { get; set; }
+        public decimal CashRemaining { get; set; }
     }
 }
