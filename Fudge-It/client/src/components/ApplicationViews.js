@@ -26,9 +26,13 @@ const ApplicationViews = () => {
       </Route>
 
       <Route path="/expenses" exact>
-        <ExpenseProvider>
-          {isLoggedIn ? <ExpenseManager /> : <Redirect to="/login" />}
-        </ExpenseProvider>
+        <ExpenseTagProvider>
+          <TagProvider>
+            <ExpenseProvider>
+              {isLoggedIn ? <ExpenseManager /> : <Redirect to="/login" />}
+            </ExpenseProvider>
+          </TagProvider>
+        </ExpenseTagProvider>
       </Route>
 
       <Route path="/tags" exact>

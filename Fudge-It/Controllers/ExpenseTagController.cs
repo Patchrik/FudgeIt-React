@@ -29,14 +29,15 @@ namespace Fudge_It.Controllers
         [HttpPost]
         public IActionResult Post(ExpenseTag expenseTag)
         {
-            //We might want to check to make sure this is a real value in the future
-            //if (expense.ExpenseDate == null)
-            //{
-            //    expense.ExpenseDate = DateTime.Now;
-            //}
+            var dupe = _repo.GetByExpenseIdAndTagId(expenseTag.ExpenseId, expenseTag.TagId);
+
+            if (dupe != null)
+            {
+                return BadRequest();
+            }
 
             _repo.Add(expenseTag);
-            return CreatedAtAction("Get", new {id = expenseTag.Id }, expenseTag);
+            return Ok(expenseTag);
         }
     }
 }

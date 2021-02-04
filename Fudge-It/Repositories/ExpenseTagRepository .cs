@@ -31,6 +31,10 @@ namespace Fudge_It.Repositories
         {
             return _context.ExpenseTag.Where(expTag => expTag.Id == id).FirstOrDefault();
         }
+        public ExpenseTag GetByExpenseIdAndTagId(int Exid, int TagId)
+        {
+            return _context.ExpenseTag.Where(expTag => expTag.ExpenseId == Exid && expTag.TagId == TagId).FirstOrDefault();
+        }
 
         public void Add(ExpenseTag exTag)
         {

@@ -24,7 +24,7 @@ import DashboardExpensePieChart from "../components/DashboardExpensePieChart";
 import "./Dashboard.css";
 
 const Dashboard = () => {
-  const { getToken, getCurrentUser } = useContext(UserProfileContext);
+  const { getToken } = useContext(UserProfileContext);
   const { getUsersExpenses } = useContext(ExpenseContext);
   const { saveExpenseTag } = useContext(ExpenseTagContext);
   const { tags, getUsersTags } = useContext(TagContext);
@@ -36,7 +36,7 @@ const Dashboard = () => {
   const [formCost, setFormCost] = useState(0.0);
   const [formNeed, setFormNeed] = useState(false);
   const [formRecurring, setFormRecurring] = useState(false);
-  const [tagDropdown, setTagDrowdown] = useState("");
+  const [tagDropdown, setTagDrowdown] = useState("0");
 
   useEffect(() => {
     getUsersTags();
@@ -75,7 +75,9 @@ const Dashboard = () => {
         .then((res) => res.json())
         .then((newExpense) => {
           console.log("This is the new expense", newExpense);
-          saveExpenseTag(parseInt(tagDropdown), newExpense.id);
+          if (tagDropdown != "0") {
+            saveExpenseTag(parseInt(tagDropdown), newExpense.id);
+          }
         })
         .then((_) => {
           setFormName("");
@@ -153,25 +155,23 @@ const Dashboard = () => {
                 />
               </FormGroup>
               <FormGroup className="dashBoard-tag-dropdown-container">
-                <FormGroup>
-                  <Input
-                    type="select"
-                    name="selectTagDropdown"
-                    id="tagDropdown"
-                    value={tagDropdown}
-                    onChange={(e) => {
-                      setTagDrowdown(e.target.value);
-                      console.log(tagDropdown);
-                    }}
-                  >
-                    <option value="0">Select a tag?</option>
-                    {tags.map((tag) => (
-                      <option key={tag.id} value={tag.id}>
-                        {tag.name}
-                      </option>
-                    ))}
-                  </Input>
-                </FormGroup>
+                <Input
+                  type="select"
+                  name="selectTagDropdown"
+                  id="tagDropdown"
+                  value={tagDropdown}
+                  onChange={(e) => {
+                    setTagDrowdown(e.target.value);
+                    console.log(tagDropdown);
+                  }}
+                >
+                  <option value="0">Select a tag?</option>
+                  {tags.map((tag) => (
+                    <option key={tag.id} value={tag.id}>
+                      {tag.name}
+                    </option>
+                  ))}
+                </Input>
               </FormGroup>
               <FormGroup className="dashBoard-checkbox-container" row>
                 <FormGroup check>

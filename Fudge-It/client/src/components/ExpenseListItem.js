@@ -16,10 +16,14 @@ import {
 import formatDate from "../utils/dateFormatter";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import { ExpenseContext } from "../providers/ExpenseProvider";
+import { TagContext } from "../providers/TagProvider";
+import { ExpenseTagContext } from "../providers/ExpenseTagProvider";
 
 const ExpenseListItem = ({ expense }) => {
   const { getToken, getCurrentUser } = useContext(UserProfileContext);
   const { getUsersExpenses, deleteExpense } = useContext(ExpenseContext);
+  const { saveExpenseTag } = useContext(ExpenseTagContext);
+  const { tags, getUsersTags } = useContext(TagContext);
 
   ////////////////// This is state for the editing Modal /////////////////////////////
   const [editingEx, setEditingEx] = useState(false);
@@ -30,6 +34,7 @@ const ExpenseListItem = ({ expense }) => {
   const [editFormCost, setEditFormCost] = useState(expense.cost);
   const [editFormNeed, setEditFormNeed] = useState(expense.need);
   const [editFormRecurring, setEditFormRecurring] = useState(expense.recurring);
+  const [tagDropdown, setTagDrowdown] = useState("0");
   ////////////////////////////////////////////////////////////////////////////////////
 
   // These are functions to toggle the booleans related to the edit modal ////////////
@@ -64,9 +69,15 @@ const ExpenseListItem = ({ expense }) => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(editedExpense),
-      }).then(() => {
-        getUsersExpenses();
-      });
+      })
+        .then(() => {
+          if (tagDropdown != "0") {
+            saveExpenseTag(parseInt(tagDropdown), expenseId);
+          }
+        })
+        .then(() => {
+          getUsersExpenses();
+        });
     });
   };
   // /////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,6 +157,25 @@ const ExpenseListItem = ({ expense }) => {
                 value={editFormCost}
                 onChange={(e) => setEditFormCost(parseFloat(e.target.value))}
               />
+            </FormGroup>
+            <FormGroup className="dashBoard-tag-dropdown-container">
+              <Input
+                type="select"
+                name="selectTagDropdown"
+                id="tagDropdown"
+                value={tagDropdown}
+                onChange={(e) => {
+                  setTagDrowdown(e.target.value);
+                  console.log(tagDropdown);
+                }}
+              >
+                <option value="0">Select a tag?</option>
+                {tags.map((tag) => (
+                  <option key={tag.id} value={tag.id}>
+                    {tag.name}
+                  </option>
+                ))}
+              </Input>
             </FormGroup>
             <FormGroup className="dashBoard-checkbox-container" row>
               <FormGroup check>

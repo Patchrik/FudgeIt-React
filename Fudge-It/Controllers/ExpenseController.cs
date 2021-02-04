@@ -54,7 +54,7 @@ namespace Fudge_It.Controllers
             }
 
             _repo.Update(expense);
-            return NoContent();
+            return Ok(expense);
         }
 
         [HttpDelete("{id}")]

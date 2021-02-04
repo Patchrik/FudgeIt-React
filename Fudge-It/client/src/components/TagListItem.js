@@ -59,7 +59,10 @@ const TagListItem = ({ tag }) => {
   };
 
   return (
-    <div className="justify-content-around row align-items-center" key={tag.id}>
+    <div
+      className="d-flex justify-content-between row align-items-center"
+      key={tag.id}
+    >
       <span className="mx-auto">{tag.name}</span>{" "}
       <ButtonGroup className="align-self-end">
         <Button onClick={toggleEditingTag}>EDIT</Button>
