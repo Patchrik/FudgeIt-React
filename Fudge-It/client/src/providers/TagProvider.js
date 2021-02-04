@@ -2,18 +2,18 @@ import React, { useState, createContext, useContext } from "react";
 import { toast } from "react-toastify";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
-export const ExpenseContext = createContext();
+export const TagContext = createContext();
 
-export const ExpenseProvider = (props) => {
+export const TagProvider = (props) => {
   const { getToken, getCurrentUser } = useContext(UserProfileContext);
 
   const activeUser = getCurrentUser();
 
-  const [expenses, setExpenses] = useState([]);
+  const [tags, setTags] = useState([]);
 
-  const getUsersExpenses = () => {
+  const getUsersTags = () => {
     getToken().then((token) =>
-      fetch(`/api/expense/${activeUser.id}`, {
+      fetch(`/api/tag/${activeUser.id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -21,22 +21,23 @@ export const ExpenseProvider = (props) => {
       })
         .then((res) => {
           if (res.status === 404) {
-            toast.error("Oops something went wrong with this expense api call");
+            toast.error("Oops something went wrong with the tag api call");
             return;
           }
           return res.json();
         })
         .then((data) => {
           if (data !== undefined) {
-            setExpenses(data);
+            setTags(data);
+            console.log(tags);
           }
         })
     );
   };
 
-  const deleteExpense = (expenseId) => {
+  const deleteTag = (tagId) => {
     getToken().then((token) => {
-      fetch(`/api/expense/${expenseId}`, {
+      fetch(`/api/tag/${tagId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -46,15 +47,15 @@ export const ExpenseProvider = (props) => {
   };
 
   return (
-    <ExpenseContext.Provider
+    <TagContext.Provider
       value={{
-        expenses,
-        setExpenses,
-        getUsersExpenses,
-        deleteExpense,
+        tags,
+        setTags,
+        getUsersTags,
+        deleteTag,
       }}
     >
       {props.children}
-    </ExpenseContext.Provider>
+    </TagContext.Provider>
   );
 };

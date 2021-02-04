@@ -1,28 +1,33 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { UserProfileContext } from '../providers/UserProfileProvider';
-import { Doughnut } from 'react-chartjs-2';
+import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { UserProfileContext } from "../providers/UserProfileProvider";
+import { ExpenseContext } from "../providers/ExpenseProvider";
+import { Doughnut, Pie } from "react-chartjs-2";
+import "./DashboardExpensePieChart.css";
 
 const DashboardExpensePieChart = () => {
   const { getToken, getCurrentUser } = useContext(UserProfileContext);
   const [rawData, setRawData] = useState({});
+  const { expenses } = useContext(ExpenseContext);
 
   const activeUser = getCurrentUser();
 
+  const userTotalSpent = 0.0;
+
   const chartColors = [
-    '#BEDB39',
-    '#BDD684',
-    '#588F27',
-    '#33691E',
-    '#67CC8E',
-    '#00796B',
+    "#BEDB39",
+    "#BDD684",
+    "#588F27",
+    "#33691E",
+    "#67CC8E",
+    "#00796B",
   ];
 
-  const getUsersExpenses = () => {
-    console.log('expense chart made a fetch call');
+  const getUsersDashchart = () => {
+    console.log("expense chart made a fetch call");
     getToken().then((token) =>
       fetch(`/api/dashboard/dashchart`, {
-        method: 'GET',
+        method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -30,7 +35,7 @@ const DashboardExpensePieChart = () => {
         .then((res) => {
           if (res.status === 404) {
             toast.error(
-              'Oops something went wrong with this dashchart api call'
+              "Oops something went wrong with this dashchart api call"
             );
             return;
           }
@@ -46,31 +51,63 @@ const DashboardExpensePieChart = () => {
   };
 
   useEffect(() => {
-    getUsersExpenses();
-  }, []);
+    getUsersDashchart();
+  }, [expenses]);
 
   const data = {
-    labels: rawData.labels,
+    labels: [],
     datasets: [
       {
-        fill: false,
-        lineTension: 0.1,
+        labels: rawData.labels,
+        label: "Spending Based On Tags",
+        data: rawData.sums,
         backgroundColor: chartColors,
         hoverOffset: 1,
-        hoverBorderColor: '#45BF55',
+        hoverBorderColor: "#45BF55",
         hoverBorderWidth: 3,
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        data: rawData.sums,
+      },
+      {
+        labels: ["Money Spent", "Money Remaining"],
+        label: "Monthly Cashflow",
+        data: [rawData.moneySpent, rawData.cashRemaining],
+        backgroundColor: ["#33691E", "#BDC3C7"],
+        hoverOffset: 1,
+        hoverBorderColor: "#45BF55",
+        hoverBorderWidth: 3,
       },
     ],
   };
 
+  const options = {
+    responsive: true,
+    legend: {
+      display: false,
+    },
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          var dataset = data.datasets[tooltipItem.datasetIndex];
+          var index = tooltipItem.index;
+          return dataset.labels[index] + ": " + dataset.data[index];
+        },
+      },
+    },
+  };
+
   const render = () => {
-    console.log('expense chart rendered');
+    console.log("expense chart rendered");
+    console.log(rawData);
     return (
-      <div>
-        <Doughnut data={data} height={400} width={600} />
+      <div className="relative">
+        <Doughnut
+          data={data}
+          options={options}
+          height={400}
+          width={600}
+        ></Doughnut>
+        <div className="absolute-center text-center">
+          <p>${rawData.cashRemaining} Remaining</p>
+        </div>
       </div>
     );
   };

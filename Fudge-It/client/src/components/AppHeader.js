@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import React, { useState, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   Collapse,
   Navbar,
@@ -10,10 +10,10 @@ import {
   NavItem,
   NavLink,
   NavbarText,
-} from 'reactstrap';
-import { UserProfileContext } from '../providers/UserProfileProvider';
-import fudgeitLogo from '../img/fudgeitLogo.png';
-import './AppHeader.css';
+} from "reactstrap";
+import { UserProfileContext } from "../providers/UserProfileProvider";
+import fudgeitLogo from "../img/fudgeitLogo.png";
+import "./AppHeader.css";
 
 const AppHeader = () => {
   const { getCurrentUser, logout, isAdmin } = useContext(UserProfileContext);
@@ -25,8 +25,8 @@ const AppHeader = () => {
 
   const logoutAndReturn = () => {
     return logout().then(() => {
-      toast.dark('You are now logged out');
-      history.push('/login');
+      toast.dark("You are now logged out");
+      history.push("/login");
     });
   };
 
@@ -64,6 +64,11 @@ const AppHeader = () => {
                   </NavLink>
                 </NavItem>
                 <NavItem>
+                  <NavLink className="nav-bar-link-text" to="/tags" tag={Link}>
+                    Tags
+                  </NavLink>
+                </NavItem>
+                <NavItem>
                   <NavLink
                     className="nav-bar-link-text"
                     onClick={logoutAndReturn}
@@ -93,7 +98,7 @@ const AppHeader = () => {
           </Nav>
           {user ? (
             <NavbarText className="d-sm-none d-md-block">
-              Welcome {user.firstName + ' ' + user.lastName}
+              Welcome {user.firstName + " " + user.lastName}
             </NavbarText>
           ) : null}
         </Collapse>
