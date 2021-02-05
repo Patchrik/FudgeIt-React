@@ -63,6 +63,11 @@ namespace Fudge_It.Controllers
             var user = GetCurrentUserProfile();
             var expenseToDelete = _repo.GetById(id);
 
+            if (expenseToDelete == null)
+            {
+                return BadRequest();
+            }
+
             if (user.Id != expenseToDelete.UserProfileId )
             {
                 return Unauthorized();

@@ -25,9 +25,32 @@ export const ExpenseTagProvider = (props) => {
     );
   };
 
-  const deleteExpenseTag = (tagId) => {
+  const getExpenseTagsByExpenseId = (expId) => {
+    getToken().then((token) =>
+      fetch(`/api/expensetag/${expId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          if (res.status === 404) {
+            toast.error("Oops something went wrong get expense tags");
+            return;
+          }
+          return res.json();
+        })
+        .then((data) => {
+          if (data !== undefined) {
+            setExpenseTags(data);
+          }
+        })
+    );
+  };
+
+  const deleteExpenseTag = (expTagId) => {
     getToken().then((token) => {
-      fetch(`/api/tag/${tagId}`, {
+      fetch(`/api/expensetag/${expTagId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -40,6 +63,10 @@ export const ExpenseTagProvider = (props) => {
     <ExpenseTagContext.Provider
       value={{
         saveExpenseTag,
+        deleteExpenseTag,
+        getExpenseTagsByExpenseId,
+        expenseTags,
+        setExpenseTags,
       }}
     >
       {props.children}

@@ -26,10 +26,15 @@ namespace Fudge_It.Repositories
         {
             return _context.ExpenseTag.Include(ext => ext.Expense).Where(ext => ext.TagId == tagId).ToList();
         }
+        
+        public List<ExpenseTag> GetExpenseTagsByExpId(int expId)
+        {
+            return _context.ExpenseTag.Include(ext => ext.Expense).Where(ext => ext.ExpenseId == expId).ToList();
+        }
 
         public ExpenseTag GetById(int id)
         {
-            return _context.ExpenseTag.Where(expTag => expTag.Id == id).FirstOrDefault();
+            return _context.ExpenseTag.Include(expTag => expTag.Expense).Include(expTag => expTag.Tag).Where(expTag => expTag.Id == id).FirstOrDefault();
         }
         public ExpenseTag GetByExpenseIdAndTagId(int Exid, int TagId)
         {
