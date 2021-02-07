@@ -52,21 +52,16 @@ const ExpenseListItem = ({ expense }) => {
 
   const toggleDeleteExpTagState = (expTagId) => {
     if (deleteExpTagState.includes(expTagId)) {
-      let newToggleStateArray = deleteExpTagState.map((id) => {
-        if (id !== expTagId) {
-          return id;
-        }
-      });
-      if (newToggleStateArray[0] === undefined) {
-        return setDeleteExpTagState([]);
-      }
+      let newToggleStateArray = deleteExpTagState.filter(
+        (id) => id !== expTagId
+      );
       setDeleteExpTagState(newToggleStateArray);
     } else {
       let updatedToggleExpTag = deleteExpTagState;
       updatedToggleExpTag.push(expTagId);
       setDeleteExpTagState(updatedToggleExpTag);
     }
-    console.log("Ive updated delete exp tag state");
+    console.log("Ive updated delete exp tag state array");
   };
 
   ////////////////// This is state for the editing Modal /////////////////////////////
@@ -134,15 +129,13 @@ const ExpenseListItem = ({ expense }) => {
   };
   //
 
-  console.log(`This is Expense id:${expense.id}`, expense);
-
   useEffect(() => {
     filterTagDropDown();
   }, []);
 
   useEffect(() => {
     renderModal();
-    console.log("I re rendered the modal");
+    console.log("I'm calling renderModal");
   }, [deleteExpTagState]);
 
   const renderModal = () => {
@@ -199,7 +192,6 @@ const ExpenseListItem = ({ expense }) => {
                 value={tagDropdown}
                 onChange={(e) => {
                   setTagDropdown(e.target.value);
-                  console.log(tagDropdown);
                 }}
               >
                 <option value="0">Select a tag?</option>
@@ -215,7 +207,7 @@ const ExpenseListItem = ({ expense }) => {
             <div className="edit-modal-tag-container my-1 d-flex">
               {expense.expenseTags.map((expTag) => {
                 if (deleteExpTagState.includes(expTag.id) === false) {
-                  debugger;
+                  // debugger;
                   return (
                     <Button
                       outline
@@ -232,7 +224,7 @@ const ExpenseListItem = ({ expense }) => {
                     </Button>
                   );
                 } else {
-                  debugger;
+                  // debugger;
                   return (
                     <Button
                       color="danger"

@@ -21,8 +21,7 @@ const TagListItem = ({ tag }) => {
   ////////////////// This is state for the editing Modal /////////////////////////////
   const [editingTag, setEditingTag] = useState(false);
   const [editFormName, setEditFormName] = useState(tag.name);
-  ////////////////////////////////////////////////////////////////////////////////////
-  // This will set the state of the modal for editing.
+
   const toggleEditingTag = () => {
     setEditingTag(!editingTag);
   };
