@@ -19,6 +19,7 @@ import { TagContext } from "../providers/TagProvider";
 import { ExpenseTagContext } from "../providers/ExpenseTagProvider";
 import { toast } from "react-toastify";
 import ExpenseListItem from "../components/ExpenseListItem";
+import ExpenseManagerNeedWantPieChart from "../components/ExpenseManagerNeedWantPieChart";
 const ExpenseManager = () => {
   const { expenses, getUsersExpenses } = useContext(ExpenseContext);
   const { getToken } = useContext(UserProfileContext);
@@ -89,7 +90,8 @@ const ExpenseManager = () => {
 
   return (
     <div className="container mt-5">
-      <h2> Manage Expenses </h2>
+      <h5>Spending On Needs vs. Wants</h5>
+      <ExpenseManagerNeedWantPieChart />
       <div className="row justify-content-center">
         <div className="col-xs-12 col-sm-8 col-md-6 col-lg-8">
           <div className="my-4">

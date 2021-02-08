@@ -75,6 +75,23 @@ namespace Fudge_It.Controllers
             return Ok(dashChart);
         }
 
+        [HttpGet("expensechart")]
+        public IActionResult GetUsersNeedsWantsChart()
+        {
+            var user = GetCurrentUserProfile();
+
+            var usersNeedsCost = _expenseRepo.GetUsersNeeds(user.Id).Sum(exp => exp.Cost);
+
+            var userWantsCost = _expenseRepo.GetUsersWants(user.Id).Sum(exp => exp.Cost);
+
+            var needsWantsChart = new NeedWantChart()
+            {
+                SpentOnNeeds = usersNeedsCost,
+                SpentOnWants = userWantsCost
+            };
+            return Ok(needsWantsChart);
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
