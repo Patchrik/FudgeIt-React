@@ -57,7 +57,10 @@ namespace Fudge_It.Controllers
             foreach (var tagId in usersTagIdList)
             {
                 decimal currentCostCount = 0;
+
                 var currentUsersExTags = _expenseTagRepo.GetExpenseTagsByTagId(tagId);
+
+
                 foreach (var expTag in currentUsersExTags)
                 {
                     currentCostCount += expTag.Expense.Cost;
