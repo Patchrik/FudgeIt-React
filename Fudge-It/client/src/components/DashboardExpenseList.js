@@ -6,13 +6,16 @@ import { faRedo } from "@fortawesome/free-solid-svg-icons";
 import { ExpenseContext } from "../providers/ExpenseProvider";
 
 const DashboardExpenseList = () => {
-  const { dashboardExpenses, getUsersDashboardExpenses } = useContext(
+  const { dashboardExpenses, getUsersDashboardExpenses, expenses } = useContext(
     ExpenseContext
   );
 
-  useEffect((_) => {
-    getUsersDashboardExpenses();
-  }, []);
+  useEffect(
+    (_) => {
+      getUsersDashboardExpenses();
+    },
+    [expenses]
+  );
 
   return (
     <div className="Dashboard-Expense-List">
