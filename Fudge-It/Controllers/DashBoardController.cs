@@ -1,6 +1,7 @@
 ﻿using Fudge_It.Models;
 using Fudge_It.Models.ViewModels;
 using Fudge_It.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,6 +14,7 @@ namespace Fudge_It.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DashboardController : ControllerBase
     {
         private readonly IExpenseRepository _expenseRepo;
