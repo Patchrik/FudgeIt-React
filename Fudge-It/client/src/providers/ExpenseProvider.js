@@ -10,6 +10,7 @@ export const ExpenseProvider = (props) => {
   const activeUser = getCurrentUser();
 
   const [expenses, setExpenses] = useState([]);
+  const [dashboardExpenses, setDashboardExpenses] = useState([]);
 
   const getUsersExpenses = () => {
     getToken().then((token) =>
@@ -29,6 +30,29 @@ export const ExpenseProvider = (props) => {
         .then((data) => {
           if (data !== undefined) {
             setExpenses(data);
+          }
+        })
+    );
+  };
+
+  const getUsersDashboardExpenses = () => {
+    getToken().then((token) =>
+      fetch(`/api/expense/dashboard/${activeUser.id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          if (res.status === 404) {
+            toast.error("Oops something went wrong with this expense api call");
+            return;
+          }
+          return res.json();
+        })
+        .then((data) => {
+          if (data !== undefined) {
+            setDashboardExpenses(data);
           }
         })
     );
@@ -56,7 +80,6 @@ export const ExpenseProvider = (props) => {
             const sortedExpenses = data.map((data) => {
               return data.expense;
             });
-            console.log(sortedExpenses);
             setExpenses(sortedExpenses);
           }
         })
@@ -83,9 +106,12 @@ export const ExpenseProvider = (props) => {
       value={{
         expenses,
         setExpenses,
+        dashboardExpenses,
+        setDashboardExpenses,
         getUsersExpenses,
         deleteExpense,
         getUsersExpensesByTagId,
+        getUsersDashboardExpenses,
       }}
     >
       {props.children}

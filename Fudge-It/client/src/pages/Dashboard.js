@@ -40,6 +40,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getUsersTags();
+    getUsersExpenses();
   }, []);
 
   const addingExToggle = () => {

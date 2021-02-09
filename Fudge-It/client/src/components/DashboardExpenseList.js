@@ -6,17 +6,18 @@ import { faRedo } from "@fortawesome/free-solid-svg-icons";
 import { ExpenseContext } from "../providers/ExpenseProvider";
 
 const DashboardExpenseList = () => {
-  const { getToken, getCurrentUser } = useContext(UserProfileContext);
-  const { expenses, getUsersExpenses } = useContext(ExpenseContext);
+  const { dashboardExpenses, getUsersDashboardExpenses } = useContext(
+    ExpenseContext
+  );
 
   useEffect((_) => {
-    getUsersExpenses();
+    getUsersDashboardExpenses();
   }, []);
 
   return (
     <div className="Dashboard-Expense-List">
       <ul className="list-group">
-        {expenses.map((exp) => (
+        {dashboardExpenses.map((exp) => (
           <li className="list-group-item" key={exp.id}>
             <span className="ml-1">{exp.name}</span>{" "}
             <span className="ml-1">${exp.cost}</span>

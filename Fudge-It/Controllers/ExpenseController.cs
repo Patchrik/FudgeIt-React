@@ -33,7 +33,14 @@ namespace Fudge_It.Controllers
             //this will return a list of the expenses that a user has.
             return Ok(_repo.GetExpensesByUserProfileId(userId));
         }
-        
+
+        [HttpGet("dashboard/{userId}")]
+        public IActionResult GetUsersDashboardExpenses(int userId)
+        {
+            //this will return a list of the expenses that a user has.
+            return Ok(_repo.GetExpensesByUserProfileIdTake10(userId));
+        }
+
         [HttpGet("bytagid/{tagId}")]
         public IActionResult GetUsersExpensesByTagId(int tagId)
         {
