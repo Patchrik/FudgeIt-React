@@ -24,7 +24,7 @@ namespace Fudge_It.Repositories
 
         public List<ExpenseTag> GetExpenseTagsByTagId(int tagId)
         {
-            return _context.ExpenseTag.Include(ext => ext.Expense).Where(ext => ext.TagId == tagId).ToList();
+            return _context.ExpenseTag.Include(ext => ext.Expense).ThenInclude(exp => exp.ExpenseTags).ThenInclude(expTag => expTag.Tag).Where(ext => ext.TagId == tagId).ToList();
         }
         
         public List<ExpenseTag> GetExpenseTagsByExpId(int expId)

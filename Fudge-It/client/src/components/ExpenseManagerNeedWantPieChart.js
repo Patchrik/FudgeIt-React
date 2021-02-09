@@ -97,7 +97,6 @@ const ExpenseManagerNeedWantPieChart = () => {
       </div>
     );
   };
-  console.log(rawData);
   return render();
 };
 export default ExpenseManagerNeedWantPieChart;

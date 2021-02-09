@@ -21,7 +21,9 @@ import { toast } from "react-toastify";
 import ExpenseListItem from "../components/ExpenseListItem";
 import ExpenseManagerNeedWantPieChart from "../components/ExpenseManagerNeedWantPieChart";
 const ExpenseManager = () => {
-  const { expenses, getUsersExpenses } = useContext(ExpenseContext);
+  const { expenses, getUsersExpenses, getUsersExpensesByTagId } = useContext(
+    ExpenseContext
+  );
   const { getToken } = useContext(UserProfileContext);
   const { saveExpenseTag } = useContext(ExpenseTagContext);
   const { tags, getUsersTags } = useContext(TagContext);
@@ -104,6 +106,20 @@ const ExpenseManager = () => {
             >
               Add New Expense
             </Button>
+          </div>
+          <div className="container">
+            <div className="row">
+              {tags.map((tag) => (
+                <Button
+                  className="col-sm mx-2 my-2"
+                  onClick={(e) => {
+                    getUsersExpensesByTagId(tag.id);
+                  }}
+                >
+                  {tag.name}
+                </Button>
+              ))}
+            </div>
           </div>
           <ListGroup>
             {expenses.map((expense) => {
