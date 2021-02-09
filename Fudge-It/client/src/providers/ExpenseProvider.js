@@ -34,6 +34,35 @@ export const ExpenseProvider = (props) => {
     );
   };
 
+  const getUsersExpensesByTagId = (tagId) => {
+    getToken().then((token) =>
+      fetch(`/api/expense/bytagid/${tagId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          if (res.status === 404) {
+            toast.error(
+              "Oops something went wrong, are you sure that's a tag?"
+            );
+            return;
+          }
+          return res.json();
+        })
+        .then((data) => {
+          if (data !== undefined) {
+            const sortedExpenses = data.map((data) => {
+              return data.expense;
+            });
+            console.log(sortedExpenses);
+            setExpenses(sortedExpenses);
+          }
+        })
+    );
+  };
+
   const deleteExpense = (expenseId) => {
     getToken()
       .then((token) => {
@@ -56,6 +85,7 @@ export const ExpenseProvider = (props) => {
         setExpenses,
         getUsersExpenses,
         deleteExpense,
+        getUsersExpensesByTagId,
       }}
     >
       {props.children}

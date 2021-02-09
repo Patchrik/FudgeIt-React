@@ -21,7 +21,9 @@ import { toast } from "react-toastify";
 import ExpenseListItem from "../components/ExpenseListItem";
 import ExpenseManagerNeedWantPieChart from "../components/ExpenseManagerNeedWantPieChart";
 const ExpenseManager = () => {
-  const { expenses, getUsersExpenses } = useContext(ExpenseContext);
+  const { expenses, getUsersExpenses, getUsersExpensesByTagId } = useContext(
+    ExpenseContext
+  );
   const { getToken } = useContext(UserProfileContext);
   const { saveExpenseTag } = useContext(ExpenseTagContext);
   const { tags, getUsersTags } = useContext(TagContext);
@@ -29,8 +31,13 @@ const ExpenseManager = () => {
   useEffect(() => {
     getUsersExpenses();
     getUsersTags();
+    findTotalCost();
     console.log(expenses);
   }, []);
+
+  useEffect(() => {
+    findTotalCost();
+  }, [expenses]);
 
   const [addingEx, setAddingEx] = useState(false);
   const [formName, setFormName] = useState("");
@@ -39,6 +46,9 @@ const ExpenseManager = () => {
   const [formNeed, setFormNeed] = useState(false);
   const [formRecurring, setFormRecurring] = useState(false);
   const [tagDropdown, setTagDrowdown] = useState("0");
+  const [sortedByTag, setSortedByTag] = useState(false);
+  const [sumOfExpenses, setSumOfExpenses] = useState(0.0);
+  const [sortedTagName, setSortedTagName] = useState("");
 
   const addingExToggle = () => {
     setAddingEx(!addingEx);
@@ -47,6 +57,14 @@ const ExpenseManager = () => {
     setFormCost(0.0);
     setFormNeed(false);
     setFormRecurring(false);
+  };
+
+  const findTotalCost = () => {
+    let costArray = expenses.map((exp) => exp.cost);
+    let totalCost = costArray.reduce(
+      (accumulator, currentValue) => accumulator + currentValue
+    );
+    setSumOfExpenses(totalCost);
   };
 
   const formNeedToggle = () => setFormNeed(!formNeed);
@@ -104,6 +122,40 @@ const ExpenseManager = () => {
             >
               Add New Expense
             </Button>
+          </div>
+          <div className="container">
+            <h5>Sort By Tag</h5>
+            <h6>
+              {sortedByTag ? (
+                <p>
+                  Total Spent On {sortedTagName}: ${sumOfExpenses}
+                </p>
+              ) : (
+                <p>Total Spent On All Tags: ${sumOfExpenses}</p>
+              )}
+            </h6>
+            <div className="row">
+              <Button
+                className="col-sm mx-2 my-2"
+                onClick={(e) => {
+                  getUsersExpenses();
+                }}
+              >
+                All Tags
+              </Button>
+              {tags.map((tag) => (
+                <Button
+                  className="col-sm mx-2 my-2"
+                  onClick={(e) => {
+                    setSortedByTag(!sortedByTag);
+                    setSortedTagName(tag.name);
+                    getUsersExpensesByTagId(tag.id);
+                  }}
+                >
+                  {tag.name}
+                </Button>
+              ))}
+            </div>
           </div>
           <ListGroup>
             {expenses.map((expense) => {

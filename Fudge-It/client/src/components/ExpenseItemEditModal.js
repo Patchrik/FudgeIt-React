@@ -69,7 +69,6 @@ const ExpenseItemEditModal = ({
 
   useEffect(() => {
     filterTagDropDown();
-    console.log("filterTag useEffect");
   }, [expenseTags]);
 
   const handleTagSelect = (tagId) => {
