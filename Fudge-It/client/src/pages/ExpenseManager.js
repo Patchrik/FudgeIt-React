@@ -27,12 +27,9 @@ const ExpenseManager = () => {
   const { getToken } = useContext(UserProfileContext);
   const { saveExpenseTag } = useContext(ExpenseTagContext);
   const { tags, getUsersTags } = useContext(TagContext);
-
   useEffect(() => {
     getUsersExpenses();
     getUsersTags();
-    findTotalCost();
-    console.log(expenses);
   }, []);
 
   useEffect(() => {
@@ -47,7 +44,7 @@ const ExpenseManager = () => {
   const [formRecurring, setFormRecurring] = useState(false);
   const [tagDropdown, setTagDrowdown] = useState("0");
   const [sortedByTag, setSortedByTag] = useState(false);
-  const [sumOfExpenses, setSumOfExpenses] = useState(0.0);
+  const [sumOfExpenses, setSumOfExpenses] = useState("0.0");
   const [sortedTagName, setSortedTagName] = useState("");
 
   const addingExToggle = () => {
@@ -60,11 +57,13 @@ const ExpenseManager = () => {
   };
 
   const findTotalCost = () => {
-    let costArray = expenses.map((exp) => exp.cost);
-    let totalCost = costArray.reduce(
-      (accumulator, currentValue) => accumulator + currentValue
-    );
-    setSumOfExpenses(totalCost);
+    if (expenses.length >= 1) {
+      let costArray = expenses.map((exp) => exp.cost);
+      let totalCost = costArray.reduce(
+        (accumulator, currentValue) => accumulator + currentValue
+      );
+      setSumOfExpenses(Number.parseFloat(totalCost).toFixed(2));
+    }
   };
 
   const formNeedToggle = () => setFormNeed(!formNeed);

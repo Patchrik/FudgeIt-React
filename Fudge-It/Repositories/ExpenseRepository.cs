@@ -23,6 +23,12 @@ namespace Fudge_It.Repositories
 
         }
 
+        public List<Expense> GetExpensesByUserProfileIdTake10(int userProfileId)
+        {
+            return _context.Expense.Include(exp => exp.ExpenseTags).ThenInclude(expTag => expTag.Tag).Where(exp => exp.UserProfileId == userProfileId).OrderByDescending(exp => exp.ExpenseDate).Take(10).ToList();
+
+        }
+
         public List<Expense> GetUsersNeeds(int userProfileId) 
         {
             return _context.Expense.Where(exp => exp.UserProfileId == userProfileId && exp.Need == true).ToList();

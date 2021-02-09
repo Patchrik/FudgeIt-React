@@ -9,6 +9,7 @@ namespace Fudge_It.Repositories
     public interface IExpenseRepository
     {
         public List<Expense> GetExpensesByUserProfileId(int userProfileId);
+        public List<Expense> GetExpensesByUserProfileIdTake10(int userProfileId);
         public List<Expense> GetUsersNeeds(int userProfileId);
         public List<Expense> GetUsersWants(int userProfileId);
         public Expense GetById(int id);
