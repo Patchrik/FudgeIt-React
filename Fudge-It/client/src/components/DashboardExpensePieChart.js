@@ -87,18 +87,7 @@ const DashboardExpensePieChart = () => {
     legend: {
       display: true,
     },
-    // tooltips: {
-    //   callbacks: {
-    //     label: function (tooltipItem, data) {
-    //       var dataset = data.datasets[tooltipItem.datasetIndex];
-    //       var index = tooltipItem.index;
-    //       return dataset.labels[index] + ": " + dataset.data[index];
-    //     },
-    //   },
-    // },
   };
-
-  console.log(rawData);
 
   const render = () => {
     return (

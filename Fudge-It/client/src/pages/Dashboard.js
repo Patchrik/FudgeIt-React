@@ -75,7 +75,6 @@ const Dashboard = () => {
       })
         .then((res) => res.json())
         .then((newExpense) => {
-          console.log("This is the new expense", newExpense);
           if (tagDropdown != "0") {
             saveExpenseTag(parseInt(tagDropdown), newExpense.id);
           }
@@ -163,7 +162,6 @@ const Dashboard = () => {
                   value={tagDropdown}
                   onChange={(e) => {
                     setTagDrowdown(e.target.value);
-                    console.log(tagDropdown);
                   }}
                 >
                   <option value="0">Select a tag?</option>
