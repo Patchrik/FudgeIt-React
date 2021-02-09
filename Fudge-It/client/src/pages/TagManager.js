@@ -45,7 +45,6 @@ const TagManager = () => {
         },
         body: JSON.stringify(tagToAdd),
       }).then(() => {
-        console.log(tagToAdd);
         setFormName("");
         getUsersTags();
       });

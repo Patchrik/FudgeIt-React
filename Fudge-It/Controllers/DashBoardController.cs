@@ -54,15 +54,32 @@ namespace Fudge_It.Controllers
                 }
             }
 
+            var countedExpenseIds = new List<int>();
+
             foreach (var tagId in usersTagIdList)
             {
                 decimal currentCostCount = 0;
+
                 var currentUsersExTags = _expenseTagRepo.GetExpenseTagsByTagId(tagId);
+
                 foreach (var expTag in currentUsersExTags)
                 {
-                    currentCostCount += expTag.Expense.Cost;
+                    if (!countedExpenseIds.Contains(expTag.ExpenseId))
+                    {
+                        currentCostCount += expTag.Expense.Cost;
+                    }
                 };
                 usersTagCostList.Add(currentCostCount);
+
+                foreach (var expenseTag in currentUsersExTags)
+                {
+                    if (!countedExpenseIds.Any(filterExpTag => filterExpTag == expenseTag.ExpenseId))
+                    {
+                        countedExpenseIds.Add(expenseTag.ExpenseId);
+                    }
+                }
+
+
             }
 
             var dashChart = new DashChart()
@@ -73,6 +90,23 @@ namespace Fudge_It.Controllers
                 CashRemaining = remainingCash,
             };
             return Ok(dashChart);
+        }
+
+        [HttpGet("expensechart")]
+        public IActionResult GetUsersNeedsWantsChart()
+        {
+            var user = GetCurrentUserProfile();
+
+            var usersNeedsCost = _expenseRepo.GetUsersNeeds(user.Id).Sum(exp => exp.Cost);
+
+            var userWantsCost = _expenseRepo.GetUsersWants(user.Id).Sum(exp => exp.Cost);
+
+            var needsWantsChart = new NeedWantChart()
+            {
+                SpentOnNeeds = usersNeedsCost,
+                SpentOnWants = userWantsCost
+            };
+            return Ok(needsWantsChart);
         }
 
         private UserProfile GetCurrentUserProfile()

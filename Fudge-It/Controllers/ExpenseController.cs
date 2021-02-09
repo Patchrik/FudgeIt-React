@@ -35,7 +35,7 @@ namespace Fudge_It.Controllers
             expense.UserProfileId = GetCurrentUserProfile().Id;
 
             _repo.Add(expense);
-            return CreatedAtAction("Get", new {id = expense.Id }, expense);
+            return Ok(expense);
         }
 
         [HttpPut("{id}")]
@@ -54,7 +54,7 @@ namespace Fudge_It.Controllers
             }
 
             _repo.Update(expense);
-            return NoContent();
+            return Ok(expense);
         }
 
         [HttpDelete("{id}")]
@@ -62,6 +62,11 @@ namespace Fudge_It.Controllers
         {
             var user = GetCurrentUserProfile();
             var expenseToDelete = _repo.GetById(id);
+
+            if (expenseToDelete == null)
+            {
+                return BadRequest();
+            }
 
             if (user.Id != expenseToDelete.UserProfileId )
             {

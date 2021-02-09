@@ -3,16 +3,13 @@ import { toast } from "react-toastify";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import { ExpenseContext } from "../providers/ExpenseProvider";
 import { Doughnut, Pie } from "react-chartjs-2";
-import "./DashboardExpensePieChart.css";
+import "./ExpenseManagerNeedWantPieChart.css";
+import { Label } from "reactstrap";
 
-const DashboardExpensePieChart = () => {
-  const { getToken, getCurrentUser } = useContext(UserProfileContext);
+const ExpenseManagerNeedWantPieChart = () => {
+  const { getToken } = useContext(UserProfileContext);
   const [rawData, setRawData] = useState({});
   const { expenses } = useContext(ExpenseContext);
-
-  const activeUser = getCurrentUser();
-
-  const userTotalSpent = 0.0;
 
   const chartColors = [
     "#BEDB39",
@@ -23,9 +20,9 @@ const DashboardExpensePieChart = () => {
     "#00796B",
   ];
 
-  const getUsersDashchart = () => {
+  const getUsersChartData = () => {
     getToken().then((token) =>
-      fetch(`/api/dashboard/dashchart`, {
+      fetch(`/api/dashboard/expensechart`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -50,30 +47,16 @@ const DashboardExpensePieChart = () => {
   };
 
   useEffect(() => {
-    getUsersDashchart();
+    getUsersChartData();
   }, [expenses]);
 
   const data = {
-    labels: rawData.labels,
+    labels: ["Needs", "Wants"],
     datasets: [
       {
-        label: "Spending Based On Tags",
-        data: rawData.sums,
+        label: "Spending on Needs & Wants ",
+        data: [rawData.spentOnNeeds, rawData.spentOnWants],
         backgroundColor: chartColors,
-        hoverOffset: 1,
-        hoverBorderColor: "#45BF55",
-        hoverBorderWidth: 3,
-      },
-    ],
-  };
-  const cashRemainingdata = {
-    labels: ["Money Spent", "Money Remaining"],
-    datasets: [
-      {
-        labels: ["Money Spent", "Money Remaining"],
-        label: "Monthly Cashflow",
-        data: [rawData.moneySpent, rawData.cashRemaining],
-        backgroundColor: ["#33691E", "#BDC3C7"],
         hoverOffset: 1,
         hoverBorderColor: "#45BF55",
         hoverBorderWidth: 3,
@@ -98,8 +81,6 @@ const DashboardExpensePieChart = () => {
     // },
   };
 
-  console.log(rawData);
-
   const render = () => {
     return (
       <div className="container">
@@ -112,19 +93,11 @@ const DashboardExpensePieChart = () => {
               options={options}
             ></Doughnut>
           </div>
-          <div className="col-sm">
-            <Doughnut
-              data={cashRemainingdata}
-              width={200}
-              height={400}
-              options={options}
-            ></Doughnut>
-          </div>
         </div>
-        <h3>You have ${rawData.cashRemaining} to spend.</h3>
       </div>
     );
   };
+  console.log(rawData);
   return render();
 };
-export default DashboardExpensePieChart;
+export default ExpenseManagerNeedWantPieChart;

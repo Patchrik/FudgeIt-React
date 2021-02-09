@@ -15,14 +15,21 @@ import {
 } from "reactstrap";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import { ExpenseContext } from "../providers/ExpenseProvider";
+import { TagContext } from "../providers/TagProvider";
+import { ExpenseTagContext } from "../providers/ExpenseTagProvider";
 import { toast } from "react-toastify";
 import ExpenseListItem from "../components/ExpenseListItem";
+import ExpenseManagerNeedWantPieChart from "../components/ExpenseManagerNeedWantPieChart";
 const ExpenseManager = () => {
   const { expenses, getUsersExpenses } = useContext(ExpenseContext);
   const { getToken } = useContext(UserProfileContext);
+  const { saveExpenseTag } = useContext(ExpenseTagContext);
+  const { tags, getUsersTags } = useContext(TagContext);
 
   useEffect(() => {
     getUsersExpenses();
+    getUsersTags();
+    console.log(expenses);
   }, []);
 
   const [addingEx, setAddingEx] = useState(false);
@@ -31,6 +38,7 @@ const ExpenseManager = () => {
   const [formCost, setFormCost] = useState(0.0);
   const [formNeed, setFormNeed] = useState(false);
   const [formRecurring, setFormRecurring] = useState(false);
+  const [tagDropdown, setTagDrowdown] = useState("0");
 
   const addingExToggle = () => {
     setAddingEx(!addingEx);
@@ -61,21 +69,29 @@ const ExpenseManager = () => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(expenseToAdd),
-      }).then(() => {
-        console.log(expenseToAdd);
-        setFormName("");
-        setFormDate(Date);
-        setFormCost(0.0);
-        setFormNeed(false);
-        setFormRecurring(false);
-        getUsersExpenses();
-      });
+      })
+        .then((res) => res.json())
+        .then((newExpense) => {
+          console.log("This is the new expense", newExpense);
+          if (tagDropdown != "0") {
+            saveExpenseTag(parseInt(tagDropdown), newExpense.id);
+          }
+        })
+        .then(() => {
+          setFormName("");
+          setFormDate(Date);
+          setFormCost(0.0);
+          setFormNeed(false);
+          setFormRecurring(false);
+          getUsersExpenses();
+        });
     });
   };
 
   return (
     <div className="container mt-5">
-      <h2> Manage Expenses </h2>
+      <h5>Spending On Needs vs. Wants</h5>
+      <ExpenseManagerNeedWantPieChart />
       <div className="row justify-content-center">
         <div className="col-xs-12 col-sm-8 col-md-6 col-lg-8">
           <div className="my-4">
@@ -142,6 +158,25 @@ const ExpenseManager = () => {
                 value={formCost}
                 onChange={(e) => setFormCost(parseFloat(e.target.value))}
               />
+            </FormGroup>
+            <FormGroup className="dashBoard-tag-dropdown-container">
+              <Input
+                type="select"
+                name="selectTagDropdown"
+                id="tagDropdown"
+                value={tagDropdown}
+                onChange={(e) => {
+                  setTagDrowdown(e.target.value);
+                  console.log(tagDropdown);
+                }}
+              >
+                <option value="0">Select a tag?</option>
+                {tags.map((tag) => (
+                  <option key={tag.id} value={tag.id}>
+                    {tag.name}
+                  </option>
+                ))}
+              </Input>
             </FormGroup>
             <FormGroup className="dashBoard-checkbox-container" row>
               <FormGroup check>

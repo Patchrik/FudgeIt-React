@@ -15,15 +15,13 @@ import { UserProfileContext } from "../providers/UserProfileProvider";
 import { TagContext } from "../providers/TagProvider";
 
 const TagListItem = ({ tag }) => {
-  debugger;
   const { getToken, getCurrentUser } = useContext(UserProfileContext);
   const { getUsersTags, deleteTag } = useContext(TagContext);
 
   ////////////////// This is state for the editing Modal /////////////////////////////
   const [editingTag, setEditingTag] = useState(false);
   const [editFormName, setEditFormName] = useState(tag.name);
-  ////////////////////////////////////////////////////////////////////////////////////
-  // This will set the state of the modal for editing.
+
   const toggleEditingTag = () => {
     setEditingTag(!editingTag);
   };
@@ -60,7 +58,10 @@ const TagListItem = ({ tag }) => {
   };
 
   return (
-    <div className="justify-content-around row align-items-center" key={tag.id}>
+    <div
+      className="d-flex justify-content-between row align-items-center"
+      key={tag.id}
+    >
       <span className="mx-auto">{tag.name}</span>{" "}
       <ButtonGroup className="align-self-end">
         <Button onClick={toggleEditingTag}>EDIT</Button>

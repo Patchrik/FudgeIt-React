@@ -35,14 +35,18 @@ export const ExpenseProvider = (props) => {
   };
 
   const deleteExpense = (expenseId) => {
-    getToken().then((token) => {
-      fetch(`/api/expense/${expenseId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    getToken()
+      .then((token) => {
+        fetch(`/api/expense/${expenseId}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      })
+      .then(() => {
+        getUsersExpenses();
       });
-    });
   };
 
   return (

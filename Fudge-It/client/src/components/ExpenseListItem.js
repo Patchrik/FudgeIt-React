@@ -1,6 +1,6 @@
 import { faRedo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Button,
   ButtonGroup,
@@ -16,66 +16,91 @@ import {
 import formatDate from "../utils/dateFormatter";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import { ExpenseContext } from "../providers/ExpenseProvider";
+import { TagContext } from "../providers/TagProvider";
+import { ExpenseTagContext } from "../providers/ExpenseTagProvider";
+import ExpenseItemEditModal from "./ExpenseItemEditModal";
 
 const ExpenseListItem = ({ expense }) => {
   const { getToken, getCurrentUser } = useContext(UserProfileContext);
   const { getUsersExpenses, deleteExpense } = useContext(ExpenseContext);
+  const { saveExpenseTag, deleteExpenseTag } = useContext(ExpenseTagContext);
+  const { tags } = useContext(TagContext);
+
+  const [test, setTest] = useState(true);
+  // State and Functions for Tag dropdown///////////////////////////////////////////////
+  const [tagDropDownOptions, setTagDropDownOptions] = useState([]);
+
+  const filterTagDropDown = () => {
+    let usedTags = [];
+    let filteredDropdownTags = [];
+
+    if (expense.expenseTags) {
+      expense.expenseTags.forEach((expenseTag) => {
+        usedTags.push(expenseTag.tagId);
+      });
+
+      tags.forEach((tag) => {
+        if (!usedTags.includes(tag.id)) {
+          filteredDropdownTags.push(tag);
+        }
+      });
+    }
+    setTagDropDownOptions(filteredDropdownTags);
+  };
 
   ////////////////// This is state for the editing Modal /////////////////////////////
-  const [editingEx, setEditingEx] = useState(false);
-  const [editFormName, setEditFormName] = useState(expense.name);
-  const [editFormDate, setEditFormDate] = useState(
-    formatDate(expense.expenseDate)
-  );
-  const [editFormCost, setEditFormCost] = useState(expense.cost);
-  const [editFormNeed, setEditFormNeed] = useState(expense.need);
-  const [editFormRecurring, setEditFormRecurring] = useState(expense.recurring);
-  ////////////////////////////////////////////////////////////////////////////////////
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
-  // These are functions to toggle the booleans related to the edit modal ////////////
-  const editFormNeedToggle = () => setEditFormNeed(!editFormNeed);
-
-  const editFormRecurringToggle = () =>
-    setEditFormRecurring(!editFormRecurring);
-
-  const toggleEditingEx = () => {
-    setEditingEx(!editingEx);
+  const toggleEditModalOpen = () => {
+    setEditModalOpen(!editModalOpen);
   };
   ////////////////////////////////////////////////////////////////////////////////
 
-  // This function creates a new Expense obj from the edit form's state and then makes a fetch call
-  const editExpense = (expenseId) => {
-    const user = getCurrentUser();
-    const editedExpense = {
-      id: expenseId,
-      name: editFormName,
-      expenseDate: editFormDate,
-      cost: editFormCost,
-      need: editFormNeed,
-      recurring: editFormRecurring,
-      userProfileId: user.id,
-    };
+  // // This function creates a new Expense obj from the edit form's state and then makes a fetch call
+  // const editExpense = (expenseId) => {
+  //   const user = getCurrentUser();
+  //   const editedExpense = {
+  //     id: expenseId,
+  //     name: editFormName,
+  //     expenseDate: editFormDate,
+  //     cost: editFormCost,
+  //     need: editFormNeed,
+  //     recurring: editFormRecurring,
+  //     userProfileId: user.id,
+  //   };
 
-    getToken().then((token) => {
-      fetch(`/api/expense/${expenseId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(editedExpense),
-      }).then(() => {
-        getUsersExpenses();
-      });
-    });
-  };
+  //   getToken().then((token) => {
+  //     fetch(`/api/expense/${expenseId}`, {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify(editedExpense),
+  //     })
+  //       .then(() => {
+  //         if (tagDropdown != "0") {
+  //           saveExpenseTag(parseInt(tagDropdown), expenseId);
+  //         }
+  //       })
+  //       .then(() => {
+  //         getUsersExpenses();
+  //       });
+  //   });
+  // };
   // /////////////////////////////////////////////////////////////////////////////////////////////
 
+  // Delete Modal state and toggle function
   const [deleteModal, setDeleteModal] = useState(false);
 
   const toggleDeleteModal = () => {
     setDeleteModal(!deleteModal);
   };
+  //
+
+  useEffect(() => {
+    filterTagDropDown();
+  }, []);
 
   return (
     <div
@@ -85,6 +110,11 @@ const ExpenseListItem = ({ expense }) => {
       <span className="mx-auto">{expense.name}</span>{" "}
       <span className="mx-auto">${expense.cost}</span>
       <span className="mx-auto"> {formatDate(expense.expenseDate)} </span>
+      {expense.expenseTags.map((expTag) => (
+        <span className="mx-auto badge badge-pill badge-primary d-inline-flex justify-content-start">
+          {expTag.tag.name}
+        </span>
+      ))}
       <span className="mx-auto">
         {expense.recurring ? <FontAwesomeIcon icon={faRedo} /> : null}
       </span>
@@ -98,18 +128,23 @@ const ExpenseListItem = ({ expense }) => {
         </span>
       )}
       <ButtonGroup className="align-self-end">
-        <Button onClick={toggleEditingEx}>EDIT</Button>
+        <Button onClick={toggleEditModalOpen}>EDIT</Button>
         <Button color="danger" onClick={toggleDeleteModal}>
           DELETE
         </Button>
       </ButtonGroup>
-      {/* This is the Modal for adding a new expense */}
-      <Modal
+      <ExpenseItemEditModal
+        expense={expense}
+        editModalOpen={editModalOpen}
+        toggleEditModalOpen={toggleEditModalOpen}
+      />
+      {/* This is the Modal for adding a editing an expense */}
+      {/* <Modal
         isOpen={editingEx}
         toggle={toggleEditingEx}
         className="DashBoard-Add-Ex-Modal"
       >
-        <ModalHeader toggle={toggleEditingEx}>Add A New Expense</ModalHeader>
+        <ModalHeader toggle={toggleEditingEx}>Edit Expense</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
@@ -147,6 +182,57 @@ const ExpenseListItem = ({ expense }) => {
                 onChange={(e) => setEditFormCost(parseFloat(e.target.value))}
               />
             </FormGroup>
+            <FormGroup className="dashBoard-tag-dropdown-container">
+              <Input
+                type="select"
+                name="selectTagDropdown"
+                id="tagDropdown"
+                value={tagDropdown}
+                onChange={(e) => {
+                  setTagDropdown(e.target.value);
+                  console.log(tagDropdown);
+                }}
+              >
+                <option value="0">Select a tag?</option>
+                {tagDropDownOptions.map((tag) => {
+                  return (
+                    <option key={tag.id} value={tag.id}>
+                      {tag.name}
+                    </option>
+                  );
+                })}
+              </Input>
+            </FormGroup>
+            <div className="edit-modal-tag-container my-1 d-flex">
+              {expense.expenseTags.map((expTag) => {
+                if (deleteExpTagState.includes(expTag.id) === false) {
+                  return (
+                    <Button
+                      outline
+                      color="danger"
+                      size="sm"
+                      onClick={() => {
+                        toggleDeleteExpTagState(expTag.id);
+                      }}
+                    >
+                      Remove {expTag.tag.name} tag
+                    </Button>
+                  );
+                } else {
+                  return (
+                    <Button
+                      color="danger"
+                      size="sm"
+                      onClick={() => {
+                        toggleDeleteExpTagState(expTag.id);
+                      }}
+                    >
+                      Remove {expTag.tag.name} tag
+                    </Button>
+                  );
+                }
+              })}
+            </div>
             <FormGroup className="dashBoard-checkbox-container" row>
               <FormGroup check>
                 <Label check>
@@ -190,7 +276,7 @@ const ExpenseListItem = ({ expense }) => {
             Yeet
           </Button>
         </ModalFooter>
-      </Modal>
+      </Modal> */}
       {/* This will be the confirm delete modal */}
       <Modal isOpen={deleteModal}>
         <ModalHeader>Delete This Expense?</ModalHeader>

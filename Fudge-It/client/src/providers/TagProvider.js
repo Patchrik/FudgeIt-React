@@ -29,7 +29,6 @@ export const TagProvider = (props) => {
         .then((data) => {
           if (data !== undefined) {
             setTags(data);
-            console.log(tags);
           }
         })
     );
