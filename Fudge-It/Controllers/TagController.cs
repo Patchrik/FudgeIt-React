@@ -57,6 +57,8 @@ namespace Fudge_It.Controllers
                 return Unauthorized();
             }
 
+            tag.CreatedDate = DateTime.Now;
+
             _tagRepo.Update(tag);
             return NoContent();
         }
