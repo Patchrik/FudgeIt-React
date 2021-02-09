@@ -16,10 +16,13 @@ namespace Fudge_It.Controllers
     {
         private readonly IExpenseRepository _repo;
         private readonly IUserProfileRepository _userRepo;
-        public ExpenseController(IExpenseRepository repo, IUserProfileRepository userProfileRepo)
+        private readonly IExpenseTagRepository _expenseTagRepo;
+        public ExpenseController(IExpenseRepository repo, IUserProfileRepository userProfileRepo, IExpenseTagRepository expenseTagRepo)
         {
             _repo = repo;
             _userRepo = userProfileRepo;
+            _expenseTagRepo = expenseTagRepo;
+            
         }
 
         [HttpGet("{userId}")]
@@ -28,6 +31,21 @@ namespace Fudge_It.Controllers
             //this will return a list of the expenses that a user has.
             return Ok(_repo.GetExpensesByUserProfileId(userId));
         }
+        
+        [HttpGet("bytagid/{tagId}")]
+        public IActionResult GetUsersExpensesByTagId(int tagId)
+        {
+            var expenseTagPosts = _expenseTagRepo.GetExpenseTagsByTagId(tagId);
+
+            if (expenseTagPosts == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(expenseTagPosts);
+        }
+
+
 
         [HttpPost]
         public IActionResult Post(Expense expense)
