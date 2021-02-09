@@ -30,11 +30,16 @@ const ExpenseManager = () => {
   useEffect(() => {
     getUsersExpenses();
     getUsersTags();
+    usedTagsButtons();
   }, []);
 
   useEffect(() => {
     findTotalCost();
   }, [expenses]);
+
+  useEffect(() => {
+    usedTagsButtons();
+  }, [tags]);
 
   const [addingEx, setAddingEx] = useState(false);
   const [formName, setFormName] = useState("");
@@ -46,6 +51,7 @@ const ExpenseManager = () => {
   const [sortedByTag, setSortedByTag] = useState(false);
   const [sumOfExpenses, setSumOfExpenses] = useState("0.0");
   const [sortedTagName, setSortedTagName] = useState("");
+  const [usedTags, setUsedTags] = useState([]);
 
   const addingExToggle = () => {
     setAddingEx(!addingEx);
@@ -63,6 +69,16 @@ const ExpenseManager = () => {
         (accumulator, currentValue) => accumulator + currentValue
       );
       setSumOfExpenses(Number.parseFloat(totalCost).toFixed(2));
+    }
+  };
+
+  const usedTagsButtons = () => {
+    if (tags.length >= 1) {
+      let allTags = tags.map((tag) => tag);
+      let tagsWithExpenses = allTags.filter(
+        (tag) => tag.expenseTags.length >= 1
+      );
+      setUsedTags(tagsWithExpenses);
     }
   };
 
@@ -89,7 +105,6 @@ const ExpenseManager = () => {
       })
         .then((res) => res.json())
         .then((newExpense) => {
-          console.log("This is the new expense", newExpense);
           if (tagDropdown != "0") {
             saveExpenseTag(parseInt(tagDropdown), newExpense.id);
           }
@@ -142,7 +157,7 @@ const ExpenseManager = () => {
               >
                 All Tags
               </Button>
-              {tags.map((tag) => (
+              {usedTags.map((tag) => (
                 <Button
                   className="col-sm mx-2 my-2"
                   onClick={(e) => {
@@ -218,7 +233,6 @@ const ExpenseManager = () => {
                 value={tagDropdown}
                 onChange={(e) => {
                   setTagDrowdown(e.target.value);
-                  console.log(tagDropdown);
                 }}
               >
                 <option value="0">Select a tag?</option>

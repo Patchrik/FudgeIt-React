@@ -81,16 +81,11 @@ const ExpenseItemEditModal = ({
     }
     if (tagId && tagId !== "0" && tagId !== "") {
       const tagName = tags.find((tag) => tag.id === parseInt(tagId));
-      console.log(
-        "This is the tag obj that came back after tags.find",
-        tagName
-      );
       const expTag = {
         tagId: parseInt(tagId),
         expenseId: expense.id,
         tag: { name: tagName.name ? tagName.name : "The name is blank" },
       };
-      console.log(expenseTags);
       setExpenseTags([...expenseTags, expTag]);
     }
   };
@@ -203,8 +198,6 @@ const ExpenseItemEditModal = ({
                   className="mx-auto close"
                   size="sm"
                   onClick={(e) => {
-                    console.log("you clicked the delete tag X");
-                    console.log("This is the button's value", expTag.tagId);
                     handleTagSelect(expTag.tagId);
                   }}
                 >
@@ -247,7 +240,6 @@ const ExpenseItemEditModal = ({
           onClick={(e) => {
             editExpense(expense.id);
             toggleEditModalOpen();
-            console.log("You clicked the save button on the edit modal");
           }}
           size="lg"
           block
