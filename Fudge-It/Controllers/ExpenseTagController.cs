@@ -45,19 +45,24 @@ namespace Fudge_It.Controllers
             return Ok(expenseTag);
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete("byExpense/{expenseId}")]
+        public IActionResult DeleteExpenesTagsByExpenseId(int expenseId)
         {
             var user = GetCurrentUserProfile();
 
-            var expTagToDelete = _repo.GetById(id);
+            var expense = _expenseRepo.GetById(expenseId);
 
-            if (expTagToDelete.Tag.UserProfileId != user.Id)
+            if (user.Id != expense.UserProfileId)
             {
                 return Unauthorized();
             }
 
-            _repo.Delete(id);
+            var expenseTags = _repo.GetExpenseTagsByExpId(expenseId);
+
+            expenseTags.ForEach((expTag) =>
+            {
+                _repo.Delete(expTag.Id);
+            });
 
             return NoContent();
         }

@@ -48,9 +48,9 @@ export const ExpenseTagProvider = (props) => {
     );
   };
 
-  const deleteExpenseTag = (expTagId) => {
+  const deleteExpenseTagsByExpenseId = (expenseId) => {
     getToken().then((token) => {
-      fetch(`/api/expensetag/${expTagId}`, {
+      fetch(`/api/expensetag/byExpense/${expenseId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -63,7 +63,7 @@ export const ExpenseTagProvider = (props) => {
     <ExpenseTagContext.Provider
       value={{
         saveExpenseTag,
-        deleteExpenseTag,
+        deleteExpenseTagsByExpenseId,
         getExpenseTagsByExpenseId,
         expenseTags,
         setExpenseTags,
