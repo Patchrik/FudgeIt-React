@@ -98,6 +98,8 @@ const DashboardExpensePieChart = () => {
     // },
   };
 
+  console.log(rawData);
+
   const render = () => {
     return (
       <div className="container">

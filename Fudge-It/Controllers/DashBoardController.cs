@@ -54,18 +54,32 @@ namespace Fudge_It.Controllers
                 }
             }
 
+            var countedExpenseIds = new List<int>();
+
             foreach (var tagId in usersTagIdList)
             {
                 decimal currentCostCount = 0;
 
                 var currentUsersExTags = _expenseTagRepo.GetExpenseTagsByTagId(tagId);
 
-
                 foreach (var expTag in currentUsersExTags)
                 {
-                    currentCostCount += expTag.Expense.Cost;
+                    if (!countedExpenseIds.Contains(expTag.ExpenseId))
+                    {
+                        currentCostCount += expTag.Expense.Cost;
+                    }
                 };
                 usersTagCostList.Add(currentCostCount);
+
+                foreach (var expenseTag in currentUsersExTags)
+                {
+                    if (!countedExpenseIds.Any(filterExpTag => filterExpTag == expenseTag.ExpenseId))
+                    {
+                        countedExpenseIds.Add(expenseTag.ExpenseId);
+                    }
+                }
+
+
             }
 
             var dashChart = new DashChart()
