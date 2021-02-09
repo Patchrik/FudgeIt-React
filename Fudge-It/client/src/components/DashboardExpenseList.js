@@ -22,9 +22,15 @@ const DashboardExpenseList = () => {
       <ul className="list-group">
         {dashboardExpenses.map((exp) => (
           <li className="list-group-item" key={exp.id}>
+            {console.log(exp)}
             <span className="ml-1">{exp.name}</span>{" "}
             <span className="ml-1">${exp.cost}</span>
             <span className="ml-1"> {formatDate(exp.expenseDate)} </span>
+            {exp.expenseTags.map((expTag) => (
+              <span className="mx-auto badge badge-pill badge-primary d-inline-flex justify-content-start">
+                {expTag.tag.name}
+              </span>
+            ))}
             <span className="mx-1">
               {exp.recurring ? <FontAwesomeIcon icon={faRedo} /> : null}
             </span>

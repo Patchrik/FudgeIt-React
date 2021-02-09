@@ -32,6 +32,11 @@ const Register = () => {
       return;
     }
 
+    if (password.length <= 5) {
+      toast.error("Password must be longer than 5 characters");
+      return;
+    }
+
     setLoading(true);
     const profile = {
       firstName,
