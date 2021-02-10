@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from "react";
-import { UserProfileContext } from "../providers/UserProfileProvider";
+import { useContext, useEffect } from "react";
 import formatDate from "../utils/dateFormatter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRedo } from "@fortawesome/free-solid-svg-icons";
@@ -10,12 +9,9 @@ const DashboardExpenseList = () => {
     ExpenseContext
   );
 
-  useEffect(
-    (_) => {
-      getUsersDashboardExpenses();
-    },
-    [expenses]
-  );
+  useEffect(() => {
+    getUsersDashboardExpenses();
+  }, [expenses]);
 
   return (
     <div className="Dashboard-Expense-List">

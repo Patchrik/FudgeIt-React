@@ -70,7 +70,7 @@ const Dashboard = () => {
       })
         .then((res) => res.json())
         .then((newExpense) => {
-          if (tagDropdown != "0") {
+          if (tagDropdown !== "0") {
             saveExpenseTag(parseInt(tagDropdown), newExpense.id);
           }
         })

@@ -33,6 +33,7 @@ const ExpenseManager = () => {
 
   useEffect(() => {
     findTotalCost();
+    usedTagsButtons();
   }, [expenses]);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const ExpenseManager = () => {
   const [formCost, setFormCost] = useState(0.0);
   const [formNeed, setFormNeed] = useState(false);
   const [formRecurring, setFormRecurring] = useState(false);
-  const [tagDropdown, setTagDrowdown] = useState("0");
+  const [tagDropdown, setTagDropdown] = useState("0");
   const [sortedByTag, setSortedByTag] = useState(false);
   const [sumOfExpenses, setSumOfExpenses] = useState("0.0");
   const [sortedTagName, setSortedTagName] = useState("");
@@ -103,7 +104,7 @@ const ExpenseManager = () => {
       })
         .then((res) => res.json())
         .then((newExpense) => {
-          if (tagDropdown != "0") {
+          if (tagDropdown !== "0") {
             saveExpenseTag(parseInt(tagDropdown), newExpense.id);
           }
         })
@@ -230,7 +231,7 @@ const ExpenseManager = () => {
                 id="tagDropdown"
                 value={tagDropdown}
                 onChange={(e) => {
-                  setTagDrowdown(e.target.value);
+                  setTagDropdown(e.target.value);
                 }}
               >
                 <option value="0">Select a tag?</option>

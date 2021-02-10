@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import { ExpenseContext } from "../providers/ExpenseProvider";
-import { Doughnut, Pie } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 import "./DashboardExpensePieChart.css";
 
 const DashboardExpensePieChart = () => {

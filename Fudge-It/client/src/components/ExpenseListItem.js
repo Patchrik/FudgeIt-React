@@ -1,6 +1,6 @@
 import { faRedo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import {
   Button,
   ButtonGroup,
@@ -11,12 +11,10 @@ import {
 } from "reactstrap";
 import formatDate from "../utils/dateFormatter";
 import { ExpenseContext } from "../providers/ExpenseProvider";
-import { TagContext } from "../providers/TagProvider";
 import ExpenseItemEditModal from "./ExpenseItemEditModal";
 
 const ExpenseListItem = ({ expense }) => {
   const { getUsersExpenses, deleteExpense } = useContext(ExpenseContext);
-  const { tags } = useContext(TagContext);
 
   ////////////////// This is state for the editing Modal /////////////////////////////
   const [editModalOpen, setEditModalOpen] = useState(false);
