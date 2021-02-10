@@ -111,7 +111,7 @@ const TagManager = () => {
             size="lg"
             block
           >
-            Yeet
+            Save
           </Button>
         </ModalFooter>
       </Modal>

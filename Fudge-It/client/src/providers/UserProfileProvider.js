@@ -1,14 +1,14 @@
-import React, { useState, useEffect, createContext } from 'react';
-import { Spinner } from 'reactstrap';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import React, { useState, useEffect, createContext } from "react";
+import { Spinner } from "reactstrap";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 export const UserProfileContext = createContext();
 
 export function UserProfileProvider(props) {
-  const apiUrl = '/api/userprofile';
+  const apiUrl = "/api/userprofile";
 
-  const userProfile = localStorage.getItem('userProfile');
+  const userProfile = localStorage.getItem("userProfile");
   const [isLoggedIn, setIsLoggedIn] = useState(userProfile != null);
 
   const [isFirebaseReady, setIsFirebaseReady] = useState(false);
@@ -24,7 +24,7 @@ export function UserProfileProvider(props) {
       .signInWithEmailAndPassword(email, pw)
       .then((signInResponse) => getUserProfile(signInResponse.user.uid))
       .then((userProfile) => {
-        localStorage.setItem('userProfile', JSON.stringify(userProfile));
+        localStorage.setItem("userProfile", JSON.stringify(userProfile));
         setIsLoggedIn(true);
         return userProfile;
       });
@@ -48,7 +48,7 @@ export function UserProfileProvider(props) {
         saveUser({ ...userProfile, firebaseUserId: createResponse.user.uid })
       )
       .then((savedUserProfile) => {
-        localStorage.setItem('userProfile', JSON.stringify(savedUserProfile));
+        localStorage.setItem("userProfile", JSON.stringify(savedUserProfile));
         setIsLoggedIn(true);
         return savedUserProfile;
       });
@@ -59,7 +59,7 @@ export function UserProfileProvider(props) {
   const getUserProfile = (firebaseUserId) => {
     return getToken().then((token) =>
       fetch(`${apiUrl}/${firebaseUserId}`, {
-        method: 'GET',
+        method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -70,10 +70,10 @@ export function UserProfileProvider(props) {
   const saveUser = (userProfile) => {
     return getToken().then((token) =>
       fetch(apiUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(userProfile),
       }).then((resp) => resp.json())
@@ -81,7 +81,7 @@ export function UserProfileProvider(props) {
   };
 
   const getCurrentUser = () => {
-    const user = localStorage.getItem('userProfile');
+    const user = localStorage.getItem("userProfile");
     if (!user) {
       return null;
     }

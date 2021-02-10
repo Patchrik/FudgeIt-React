@@ -69,7 +69,7 @@ const TagListItem = ({ tag }) => {
           DELETE
         </Button>
       </ButtonGroup>
-      {/* This is the Modal for adding a new expense */}
+      {/* This is the Modal for adding a new tag */}
       <Modal
         isOpen={editingTag}
         toggle={toggleEditingTag}
@@ -103,7 +103,7 @@ const TagListItem = ({ tag }) => {
             size="lg"
             block
           >
-            Yeet
+            Edit
           </Button>
         </ModalFooter>
       </Modal>
