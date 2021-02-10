@@ -6,13 +6,9 @@ import { Doughnut, Pie } from "react-chartjs-2";
 import "./DashboardExpensePieChart.css";
 
 const DashboardExpensePieChart = () => {
-  const { getToken, getCurrentUser } = useContext(UserProfileContext);
+  const { getToken } = useContext(UserProfileContext);
   const [rawData, setRawData] = useState({});
   const { expenses } = useContext(ExpenseContext);
-
-  const activeUser = getCurrentUser();
-
-  const userTotalSpent = 0.0;
 
   const chartColors = [
     "#BEDB39",

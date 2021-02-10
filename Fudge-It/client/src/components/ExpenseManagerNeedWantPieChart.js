@@ -4,7 +4,6 @@ import { UserProfileContext } from "../providers/UserProfileProvider";
 import { ExpenseContext } from "../providers/ExpenseProvider";
 import { Doughnut, Pie } from "react-chartjs-2";
 import "./ExpenseManagerNeedWantPieChart.css";
-import { Label } from "reactstrap";
 
 const ExpenseManagerNeedWantPieChart = () => {
   const { getToken } = useContext(UserProfileContext);
@@ -70,15 +69,6 @@ const ExpenseManagerNeedWantPieChart = () => {
     legend: {
       display: true,
     },
-    // tooltips: {
-    //   callbacks: {
-    //     label: function (tooltipItem, data) {
-    //       var dataset = data.datasets[tooltipItem.datasetIndex];
-    //       var index = tooltipItem.index;
-    //       return dataset.labels[index] + ": " + dataset.data[index];
-    //     },
-    //   },
-    // },
   };
 
   const render = () => {

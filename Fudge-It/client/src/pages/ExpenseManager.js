@@ -3,7 +3,6 @@ import {
   ListGroup,
   ListGroupItem,
   Input,
-  InputGroup,
   Button,
   Form,
   FormGroup,
@@ -17,7 +16,6 @@ import { UserProfileContext } from "../providers/UserProfileProvider";
 import { ExpenseContext } from "../providers/ExpenseProvider";
 import { TagContext } from "../providers/TagProvider";
 import { ExpenseTagContext } from "../providers/ExpenseTagProvider";
-import { toast } from "react-toastify";
 import ExpenseListItem from "../components/ExpenseListItem";
 import ExpenseManagerNeedWantPieChart from "../components/ExpenseManagerNeedWantPieChart";
 const ExpenseManager = () => {
@@ -283,7 +281,7 @@ const ExpenseManager = () => {
             size="lg"
             block
           >
-            Yeet
+            Save
           </Button>
         </ModalFooter>
       </Modal>
