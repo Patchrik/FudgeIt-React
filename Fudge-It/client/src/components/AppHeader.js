@@ -16,7 +16,7 @@ import fudgeitLogo from "../img/fudgeitLogo.png";
 import "./AppHeader.css";
 
 const AppHeader = () => {
-  const { getCurrentUser, logout, isAdmin } = useContext(UserProfileContext);
+  const { getCurrentUser, logout } = useContext(UserProfileContext);
   const user = getCurrentUser();
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);

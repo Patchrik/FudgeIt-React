@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "react";
-import { UserProfileContext } from "../providers/UserProfileProvider";
+import { useContext, useEffect } from "react";
 import formatDate from "../utils/dateFormatter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRedo } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { ExpenseContext } from "../providers/ExpenseProvider";
 
 const DashboardExpenseList = () => {
@@ -10,34 +9,38 @@ const DashboardExpenseList = () => {
     ExpenseContext
   );
 
-  useEffect(
-    (_) => {
-      getUsersDashboardExpenses();
-    },
-    [expenses]
-  );
+  useEffect(() => {
+    getUsersDashboardExpenses();
+  }, [expenses]);
 
   return (
-    <div className="Dashboard-Expense-List">
+    <div className="Dashboard-Expense-List container">
       <ul className="list-group">
         {dashboardExpenses.map((exp) => (
           <li className="list-group-item" key={exp.id}>
-            <span className="ml-1">{exp.name}</span>{" "}
-            <span className="ml-1">${exp.cost}</span>
-            <span className="ml-1"> {formatDate(exp.expenseDate)} </span>
-            {exp.expenseTags.map((expTag) => (
-              <span className="mx-auto badge badge-pill badge-primary d-inline-flex justify-content-start">
-                {expTag.tag.name}
+            <div className="col-sm">
+              <span className="ml-1">{exp.name}</span>{" "}
+              <span className="ml-1">${exp.cost}</span>
+            </div>
+            <div className="col-sm">
+              <span className="ml-1"> {formatDate(exp.expenseDate)} </span>
+              <span className="mx-1">
+                {exp.recurring ? "Monthly " : null}
+                {exp.recurring ? (
+                  <FontAwesomeIcon icon={faCalendarAlt} />
+                ) : null}
               </span>
-            ))}
-            <span className="mx-1">
-              {exp.recurring ? <FontAwesomeIcon icon={faRedo} /> : null}
-            </span>
+            </div>
             {exp.need ? (
               <span className="ml-1 badge badge-success">Need</span>
             ) : (
-              <span className="ml-1 badge badge-secondary">Want</span>
+              <span className="ml-1 badge badge-primary">Want</span>
             )}
+            {exp.expenseTags.map((expTag) => (
+              <span className="mx-1 badge badge-pill badge-secondary d-inline-flex justify-content-start">
+                {expTag.tag.name}
+              </span>
+            ))}
           </li>
         ))}
       </ul>
