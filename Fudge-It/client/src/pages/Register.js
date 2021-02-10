@@ -18,12 +18,6 @@ const Register = () => {
   const [confirm, setConfirm] = useState("");
   const history = useHistory();
 
-  let cashflowAsNumber = 0;
-
-  const convertCashflow = (string) => {
-    cashflowAsNumber = Number(string);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -87,7 +81,6 @@ const Register = () => {
           <Input
             onChange={(e) => {
               setCashflow(e.target.value);
-              convertCashflow(cashflow);
             }}
             type="number"
             className="form-control"
