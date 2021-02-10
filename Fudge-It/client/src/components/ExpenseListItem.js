@@ -1,4 +1,4 @@
-import { faRedo } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useContext } from "react";
 import {
@@ -37,26 +37,32 @@ const ExpenseListItem = ({ expense }) => {
       className="justify-content-around row align-items-center"
       key={expense.id}
     >
-      <span className="mx-auto">{expense.name}</span>{" "}
-      <span className="mx-auto">${expense.cost}</span>
+      <div className="col-sm">
+        <span className="mx-auto">{expense.name}</span>{" "}
+        <span className="mx-auto">${expense.cost}</span>
+      </div>
       <span className="mx-auto"> {formatDate(expense.expenseDate)} </span>
-      {expense.expenseTags.map((expTag) => (
-        <span className="mx-auto badge badge-pill badge-primary d-inline-flex justify-content-start">
-          {expTag.tag.name}
+      <div className="col-sm">
+        {expense.expenseTags.map((expTag) => (
+          <span className="mx-auto badge badge-pill badge-primary d-inline-flex justify-content-start">
+            {expTag.tag.name}
+          </span>
+        ))}
+      </div>
+      <div className="col-sm">
+        <span className="mx-1">
+          {expense.recurring ? <FontAwesomeIcon icon={faCalendarAlt} /> : null}
         </span>
-      ))}
-      <span className="mx-auto">
-        {expense.recurring ? <FontAwesomeIcon icon={faRedo} /> : null}
-      </span>
-      {expense.need ? (
-        <span className="mx-auto badge badge-pill badge-success d-inline-flex justify-content-start">
-          Need
-        </span>
-      ) : (
-        <span className="mx-auto badge badge-pill badge-secondary d-inline-flex justify-content-start">
-          Want
-        </span>
-      )}
+        {expense.need ? (
+          <span className="mx-1 badge badge-pill badge-success d-inline-flex justify-content-start">
+            Need
+          </span>
+        ) : (
+          <span className="mx-1 badge badge-pill badge-secondary d-inline-flex justify-content-start">
+            Want
+          </span>
+        )}
+      </div>
       <ButtonGroup className="align-self-end">
         <Button onClick={toggleEditModalOpen}>EDIT</Button>
         <Button color="danger" onClick={toggleDeleteModal}>
@@ -79,7 +85,9 @@ const ExpenseListItem = ({ expense }) => {
             <span className="mx-auto">${expense.cost}</span>
             <span className="mx-auto"> {formatDate(expense.expenseDate)} </span>
             <span className="mx-auto">
-              {expense.recurring ? <FontAwesomeIcon icon={faRedo} /> : null}
+              {expense.recurring ? (
+                <FontAwesomeIcon icon={faCalendarAlt} />
+              ) : null}
             </span>
             {expense.need ? (
               <span className="mx-auto badge badge-pill badge-success d-inline-flex justify-content-start">

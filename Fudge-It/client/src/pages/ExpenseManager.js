@@ -172,7 +172,7 @@ const ExpenseManager = () => {
               ))}
             </div>
           </div>
-          <ListGroup>
+          <ListGroup className="container">
             {expenses.map((expense) => {
               return (
                 <ListGroupItem key={expense.id}>
