@@ -59,6 +59,7 @@ const ExpenseManager = () => {
     setFormCost(0.0);
     setFormNeed(false);
     setFormRecurring(false);
+    setTagDropdown("0");
   };
 
   const findTotalCost = () => {
