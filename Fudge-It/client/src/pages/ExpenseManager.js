@@ -32,8 +32,8 @@ const ExpenseManager = () => {
   }, []);
 
   useEffect(() => {
+    getUsersTags();
     findTotalCost();
-    usedTagsButtons();
   }, [expenses]);
 
   useEffect(() => {
@@ -277,7 +277,7 @@ const ExpenseManager = () => {
               saveNewExpense();
               setTimeout(() => {
                 addingExToggle();
-              }, 500);
+              }, 100);
             }}
             size="lg"
             block
