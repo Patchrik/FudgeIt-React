@@ -37,7 +37,7 @@ namespace Fudge_It.Controllers
 
             var currentUsersTags = _tagRepo.GetTagsByUserProfileId(currentUser.Id);
 
-            var currentUsersExpenses = _expenseRepo.GetExpensesByUserProfileId(currentUser.Id);
+            var currentUsersExpenses = _expenseRepo.GetExpensesByCurrentMonthAndUserProfileId(currentUser.Id);
 
             var moneySpent = currentUsersExpenses.Sum(exp => exp.Cost);
 
