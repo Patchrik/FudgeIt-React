@@ -21,7 +21,7 @@ const ExpenseItemEditModal = ({
   editModalOpen,
   toggleEditModalOpen,
 }) => {
-  const { tags } = useContext(TagContext);
+  const { tags, getUsersTags } = useContext(TagContext);
   const { getCurrentUser, getToken } = useContext(UserProfileContext);
   const { getUsersExpenses } = useContext(ExpenseContext);
   const { saveExpenseTag, deleteExpenseTagsByExpenseId } = useContext(
@@ -118,6 +118,7 @@ const ExpenseItemEditModal = ({
         })
         .then(() => {
           getUsersExpenses();
+          getUsersTags();
         });
     });
   };
