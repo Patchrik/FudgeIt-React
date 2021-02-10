@@ -17,25 +17,31 @@ namespace Fudge_It.Repositories
             _context = context;
         }
 
-        public List<Expense> GetExpensesByUserProfileId(int userProfileId)
+        public List<Expense> GetExpensesByCurrentMonthAndUserProfileId(int userProfileId)
         {
-            return _context.Expense.Include(exp => exp.ExpenseTags).ThenInclude(expTag => expTag.Tag).Where(exp => exp.UserProfileId == userProfileId).OrderByDescending(exp => exp.ExpenseDate).ToList();
+            var todaysMonth = DateTime.Today.Month;
+
+            return _context.Expense.Include(exp => exp.ExpenseTags).ThenInclude(expTag => expTag.Tag).Where(exp => exp.UserProfileId == userProfileId && exp.ExpenseDate.Month == todaysMonth).OrderByDescending(exp => exp.ExpenseDate).ToList();
 
         }
 
         public List<Expense> GetExpensesByUserProfileIdTake10(int userProfileId)
         {
-            return _context.Expense.Include(exp => exp.ExpenseTags).ThenInclude(expTag => expTag.Tag).Where(exp => exp.UserProfileId == userProfileId).OrderByDescending(exp => exp.ExpenseDate).Take(10).ToList();
+            var todaysMonth = DateTime.Today.Month;
+
+            return _context.Expense.Include(exp => exp.ExpenseTags).ThenInclude(expTag => expTag.Tag).Where(exp => exp.UserProfileId == userProfileId && exp.ExpenseDate.Month == todaysMonth).OrderByDescending(exp => exp.ExpenseDate).Take(10).ToList();
 
         }
 
         public List<Expense> GetUsersNeeds(int userProfileId) 
         {
-            return _context.Expense.Where(exp => exp.UserProfileId == userProfileId && exp.Need == true).ToList();
+            var todaysMonth = DateTime.Today.Month;
+            return _context.Expense.Where(exp => exp.UserProfileId == userProfileId && exp.Need == true && exp.ExpenseDate.Month == todaysMonth).ToList();
         }
         public List<Expense> GetUsersWants(int userProfileId) 
         {
-            return _context.Expense.Where(exp => exp.UserProfileId == userProfileId && exp.Need == false).ToList();
+            var todaysMonth = DateTime.Today.Month;
+            return _context.Expense.Where(exp => exp.UserProfileId == userProfileId && exp.Need == false && exp.ExpenseDate.Month == todaysMonth).ToList();
         }
 
         public Expense GetById(int id)

@@ -13,7 +13,7 @@ namespace Fudge_It.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize] Remember to uncomment this before commiting
     public class ExpenseController : ControllerBase
     {
         private readonly IExpenseRepository _repo;
@@ -31,7 +31,7 @@ namespace Fudge_It.Controllers
         public IActionResult GetUsersExpenses(int userId)
         {
             //this will return a list of the expenses that a user has.
-            return Ok(_repo.GetExpensesByUserProfileId(userId));
+            return Ok(_repo.GetExpensesByCurrentMonthAndUserProfileId(userId));
         }
 
         [HttpGet("dashboard/{userId}")]
@@ -40,6 +40,8 @@ namespace Fudge_It.Controllers
             //this will return a list of the expenses that a user has.
             return Ok(_repo.GetExpensesByUserProfileIdTake10(userId));
         }
+
+
 
         [HttpGet("bytagid/{tagId}")]
         public IActionResult GetUsersExpensesByTagId(int tagId)
