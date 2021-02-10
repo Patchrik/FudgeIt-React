@@ -48,8 +48,8 @@ namespace Fudge_It.Controllers
             List<decimal> usersTagCostList = new List<decimal>();
 
             foreach (var tag in currentUsersTags)
-            {
-                if (usersTagNameList.Contains(tag.Name) == false)
+    {
+                if (usersTagNameList.Contains(tag.Name) == false && tag.ExpenseTags.Count >= 1)
                 {
                     usersTagNameList.Add(tag.Name);
                     usersTagIdList.Add(tag.Id);
