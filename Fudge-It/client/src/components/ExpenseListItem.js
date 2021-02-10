@@ -4,49 +4,19 @@ import React, { useState, useContext, useEffect } from "react";
 import {
   Button,
   ButtonGroup,
-  Form,
-  FormGroup,
-  Input,
-  Label,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
 } from "reactstrap";
 import formatDate from "../utils/dateFormatter";
-import { UserProfileContext } from "../providers/UserProfileProvider";
 import { ExpenseContext } from "../providers/ExpenseProvider";
 import { TagContext } from "../providers/TagProvider";
-import { ExpenseTagContext } from "../providers/ExpenseTagProvider";
 import ExpenseItemEditModal from "./ExpenseItemEditModal";
 
 const ExpenseListItem = ({ expense }) => {
-  const { getToken, getCurrentUser } = useContext(UserProfileContext);
   const { getUsersExpenses, deleteExpense } = useContext(ExpenseContext);
-  const { saveExpenseTag, deleteExpenseTag } = useContext(ExpenseTagContext);
   const { tags } = useContext(TagContext);
-
-  const [test, setTest] = useState(true);
-  // State and Functions for Tag dropdown///////////////////////////////////////////////
-  const [tagDropDownOptions, setTagDropDownOptions] = useState([]);
-
-  const filterTagDropDown = () => {
-    let usedTags = [];
-    let filteredDropdownTags = [];
-
-    if (expense.expenseTags) {
-      expense.expenseTags.forEach((expenseTag) => {
-        usedTags.push(expenseTag.tagId);
-      });
-
-      tags.forEach((tag) => {
-        if (!usedTags.includes(tag.id)) {
-          filteredDropdownTags.push(tag);
-        }
-      });
-    }
-    setTagDropDownOptions(filteredDropdownTags);
-  };
 
   ////////////////// This is state for the editing Modal /////////////////////////////
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -63,10 +33,6 @@ const ExpenseListItem = ({ expense }) => {
     setDeleteModal(!deleteModal);
   };
   //
-
-  useEffect(() => {
-    filterTagDropDown();
-  }, []);
 
   return (
     <div

@@ -1,10 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
 import {
   Button,
-  Col,
-  Container,
   Form,
   FormGroup,
   Input,
@@ -14,7 +10,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from "reactstrap";
-import { Link } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import { ExpenseContext } from "../providers/ExpenseProvider";
 import { TagContext } from "../providers/TagProvider";
@@ -212,7 +207,7 @@ const Dashboard = () => {
               size="lg"
               block
             >
-              Yeet
+              Save
             </Button>
           </ModalFooter>
         </Modal>

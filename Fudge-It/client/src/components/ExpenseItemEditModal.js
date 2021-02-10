@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import {
   Button,
-  ButtonGroup,
   Form,
   FormGroup,
   Input,
@@ -244,7 +243,7 @@ const ExpenseItemEditModal = ({
           size="lg"
           block
         >
-          Yeet
+          Edit
         </Button>
       </ModalFooter>
     </Modal>

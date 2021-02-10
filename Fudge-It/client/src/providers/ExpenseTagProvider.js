@@ -5,9 +5,7 @@ import { UserProfileContext } from "./UserProfileProvider";
 export const ExpenseTagContext = createContext();
 
 export const ExpenseTagProvider = (props) => {
-  const { getToken, getCurrentUser } = useContext(UserProfileContext);
-
-  const activeUser = getCurrentUser();
+  const { getToken } = useContext(UserProfileContext);
 
   const [expenseTags, setExpenseTags] = useState([]);
 
