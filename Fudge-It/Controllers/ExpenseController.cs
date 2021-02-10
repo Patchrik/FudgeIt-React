@@ -13,7 +13,7 @@ namespace Fudge_It.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize] Remember to uncomment this before commiting
+    [Authorize]
     public class ExpenseController : ControllerBase
     {
         private readonly IExpenseRepository _repo;
