@@ -152,6 +152,7 @@ const ExpenseManager = () => {
               <Button
                 className="col-sm mx-2 my-2"
                 onClick={(e) => {
+                  setSortedByTag(false);
                   getUsersExpenses();
                 }}
               >
