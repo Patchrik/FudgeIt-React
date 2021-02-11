@@ -12,11 +12,25 @@ const DashboardExpensePieChart = () => {
 
   const chartColors = [
     "#BEDB39",
+    "#dccdf0",
     "#BDD684",
+    "#270b4b",
     "#588F27",
-    "#33691E",
+    "#0EEAFF",
     "#67CC8E",
+    "#33691E",
+    "#AB47BC",
     "#00796B",
+    "#1BBC9B",
+    "#a9f3e4",
+    "#0D47A1",
+    "#35478C",
+    "#001012",
+    "#280141",
+    "#732DD9",
+    "#B1FF91",
+    "#799AE0",
+    "#51c360",
   ];
 
   const getUsersDashchart = () => {
@@ -69,7 +83,7 @@ const DashboardExpensePieChart = () => {
         labels: ["Money Spent", "Money Remaining"],
         label: "Monthly Cashflow",
         data: [rawData.moneySpent, rawData.cashRemaining],
-        backgroundColor: ["#33691E", "#BDC3C7"],
+        backgroundColor: ["#33691E", "#edf4de"],
         hoverOffset: 1,
         hoverBorderColor: "#45BF55",
         hoverBorderWidth: 3,
