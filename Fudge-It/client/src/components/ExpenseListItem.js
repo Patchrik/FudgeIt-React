@@ -39,7 +39,10 @@ const ExpenseListItem = ({ expense }) => {
     >
       <div className="col-sm">
         <span className="mx-auto">{expense.name}</span>{" "}
-        <span className="mx-auto">${expense.cost}</span>
+        <span className="mx-auto">
+          {" "}
+          <strong>${expense.cost}</strong>
+        </span>
       </div>
       <span className="mx-auto"> {formatDate(expense.expenseDate)} </span>
       <div className="col-sm">
@@ -49,10 +52,10 @@ const ExpenseListItem = ({ expense }) => {
           </span>
         ))}
       </div>
+      <span className="mx-1">
+        {expense.recurring ? <FontAwesomeIcon icon={faCalendarAlt} /> : null}
+      </span>
       <div className="col-sm">
-        <span className="mx-1">
-          {expense.recurring ? <FontAwesomeIcon icon={faCalendarAlt} /> : null}
-        </span>
         {expense.need ? (
           <span className="mx-1 badge badge-pill badge-success d-inline-flex justify-content-start">
             Need
@@ -63,12 +66,14 @@ const ExpenseListItem = ({ expense }) => {
           </span>
         )}
       </div>
-      <ButtonGroup className="align-self-end">
-        <Button onClick={toggleEditModalOpen}>EDIT</Button>
-        <Button color="danger" onClick={toggleDeleteModal}>
-          DELETE
-        </Button>
-      </ButtonGroup>
+      <div>
+        <ButtonGroup className="align-self-end">
+          <Button onClick={toggleEditModalOpen}>EDIT</Button>
+          <Button color="danger" onClick={toggleDeleteModal}>
+            DELETE
+          </Button>
+        </ButtonGroup>
+      </div>
       <ExpenseItemEditModal
         expense={expense}
         editModalOpen={editModalOpen}
