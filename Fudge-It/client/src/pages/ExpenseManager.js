@@ -32,8 +32,8 @@ const ExpenseManager = () => {
   }, []);
 
   useEffect(() => {
+    getUsersTags();
     findTotalCost();
-    usedTagsButtons();
   }, [expenses]);
 
   useEffect(() => {
@@ -59,6 +59,7 @@ const ExpenseManager = () => {
     setFormCost(0.0);
     setFormNeed(false);
     setFormRecurring(false);
+    setTagDropdown("0");
   };
 
   const findTotalCost = () => {
@@ -151,6 +152,7 @@ const ExpenseManager = () => {
               <Button
                 className="col-sm mx-2 my-2"
                 onClick={(e) => {
+                  setSortedByTag(false);
                   getUsersExpenses();
                 }}
               >
@@ -170,7 +172,7 @@ const ExpenseManager = () => {
               ))}
             </div>
           </div>
-          <ListGroup>
+          <ListGroup className="container">
             {expenses.map((expense) => {
               return (
                 <ListGroupItem key={expense.id}>
@@ -277,7 +279,7 @@ const ExpenseManager = () => {
               saveNewExpense();
               setTimeout(() => {
                 addingExToggle();
-              }, 500);
+              }, 100);
             }}
             size="lg"
             block

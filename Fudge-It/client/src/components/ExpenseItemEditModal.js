@@ -21,7 +21,7 @@ const ExpenseItemEditModal = ({
   editModalOpen,
   toggleEditModalOpen,
 }) => {
-  const { tags } = useContext(TagContext);
+  const { tags, getUsersTags } = useContext(TagContext);
   const { getCurrentUser, getToken } = useContext(UserProfileContext);
   const { getUsersExpenses } = useContext(ExpenseContext);
   const { saveExpenseTag, deleteExpenseTagsByExpenseId } = useContext(
@@ -45,7 +45,7 @@ const ExpenseItemEditModal = ({
 
   // State and Functions for Tag dropdown///////////////////////////////////////////////
   const [tagDropDownOptions, setTagDropDownOptions] = useState([]);
-  const [tagChoice, setTagChoice] = useState("");
+  const [tagChoice, setTagChoice] = useState("0");
 
   const filterTagDropDown = () => {
     let usedTags = [];
@@ -68,7 +68,7 @@ const ExpenseItemEditModal = ({
 
   useEffect(() => {
     filterTagDropDown();
-  }, [expenseTags]);
+  }, [expenseTags, tags]);
 
   const handleTagSelect = (tagId) => {
     if (expenseTags.some((expTag) => expTag.tagId === parseInt(tagId))) {
@@ -120,6 +120,7 @@ const ExpenseItemEditModal = ({
           getUsersExpenses();
         });
     });
+    await getUsersTags();
   };
   // /////////////////////////////////////////////////////////////////////////////////////////////
 

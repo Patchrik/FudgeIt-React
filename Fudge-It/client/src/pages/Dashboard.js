@@ -31,7 +31,7 @@ const Dashboard = () => {
   const [formCost, setFormCost] = useState(0.0);
   const [formNeed, setFormNeed] = useState(false);
   const [formRecurring, setFormRecurring] = useState(false);
-  const [tagDropdown, setTagDrowdown] = useState("0");
+  const [tagDropdown, setTagDropdown] = useState("0");
 
   useEffect(() => {
     getUsersTags();
@@ -45,6 +45,7 @@ const Dashboard = () => {
     setFormCost(0.0);
     setFormNeed(false);
     setFormRecurring(false);
+    setTagDropdown("0");
   };
 
   const formNeedToggle = () => setFormNeed(!formNeed);
@@ -156,7 +157,7 @@ const Dashboard = () => {
                   id="tagDropdown"
                   value={tagDropdown}
                   onChange={(e) => {
-                    setTagDrowdown(e.target.value);
+                    setTagDropdown(e.target.value);
                   }}
                 >
                   <option value="0">Select a tag?</option>
