@@ -72,6 +72,7 @@ const AppHeader = () => {
                   <NavLink
                     className="nav-bar-link-text"
                     onClick={logoutAndReturn}
+                    tag={Link}
                   >
                     Logout
                   </NavLink>
