@@ -35,7 +35,7 @@ namespace Fudge_It.Controllers
         {
             var currentUser = GetCurrentUserProfile();
 
-            var currentUsersTags = _tagRepo.GetTagsByUserProfileId(currentUser.Id);
+            var currentUsersTags = _tagRepo.GetTagsByUserProfileId(currentUser.Id).OrderBy(tag => tag.CreatedDate);
 
             var currentUsersExpenses = _expenseRepo.GetExpensesByCurrentMonthAndUserProfileId(currentUser.Id);
 
