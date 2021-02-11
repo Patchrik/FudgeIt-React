@@ -45,7 +45,7 @@ const ExpenseItemEditModal = ({
 
   // State and Functions for Tag dropdown///////////////////////////////////////////////
   const [tagDropDownOptions, setTagDropDownOptions] = useState([]);
-  const [tagChoice, setTagChoice] = useState("");
+  const [tagChoice, setTagChoice] = useState("0");
 
   const filterTagDropDown = () => {
     let usedTags = [];
@@ -68,7 +68,7 @@ const ExpenseItemEditModal = ({
 
   useEffect(() => {
     filterTagDropDown();
-  }, [expenseTags]);
+  }, [expenseTags, tags]);
 
   const handleTagSelect = (tagId) => {
     if (expenseTags.some((expTag) => expTag.tagId === parseInt(tagId))) {
@@ -118,9 +118,9 @@ const ExpenseItemEditModal = ({
         })
         .then(() => {
           getUsersExpenses();
-          getUsersTags();
         });
     });
+    await getUsersTags();
   };
   // /////////////////////////////////////////////////////////////////////////////////////////////
 
