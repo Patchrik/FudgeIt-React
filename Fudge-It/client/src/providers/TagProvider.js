@@ -35,14 +35,18 @@ export const TagProvider = (props) => {
   };
 
   const deleteTag = (tagId) => {
-    getToken().then((token) => {
-      fetch(`/api/tag/${tagId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    getToken()
+      .then((token) => {
+        fetch(`/api/tag/${tagId}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      })
+      .then(() => {
+        getUsersTags();
       });
-    });
   };
 
   return (
