@@ -15,22 +15,20 @@ import {
 } from "reactstrap";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
-const UserManager = () => {
+const UserManager = ({ activeUser }) => {
   const { getToken, getCurrentUser } = useContext(UserProfileContext);
-  const [user, setUser] = useState({});
   const [editing, setEditing] = useState(true);
-
-  useEffect(() => {
-    const activeUser = getCurrentUser();
-    setUser(activeUser);
-  }, []);
+  const [firstName, setFirstName] = useState(activeUser.firstName);
+  const [lastName, setLastName] = useState(activeUser.lastName);
+  const [email, setEmail] = useState(activeUser.email);
+  const [cashflow, setCashflow] = useState(activeUser.cashflow);
 
   const toggleEditState = () => {
     setEditing(!editing);
   };
 
   const labelStyle = { "font-size": "medium", "text-align": "left" };
-  console.log(user);
+
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
@@ -54,7 +52,7 @@ const UserManager = () => {
                               type="text"
                               name="firstName"
                               id="exampleFirstName"
-                              value={user.firstName}
+                              value={firstName}
                             />
                           </Label>
                         </FormGroup>
@@ -72,7 +70,7 @@ const UserManager = () => {
                               type="text"
                               name="lastName"
                               id="exampleLastName"
-                              value={user.lastName}
+                              value={lastName}
                             />
                           </Label>
                         </FormGroup>
@@ -92,7 +90,7 @@ const UserManager = () => {
                               type="email"
                               name="email"
                               id="exampleEmail"
-                              value={user.email}
+                              value={email}
                             />
                           </Label>
                         </FormGroup>
@@ -110,7 +108,7 @@ const UserManager = () => {
                               type="number"
                               name="cashflow"
                               id="exampleCashflow"
-                              value={user.cashflow}
+                              value={cashflow}
                             />
                           </Label>
                         </FormGroup>

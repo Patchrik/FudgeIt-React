@@ -80,6 +80,19 @@ export function UserProfileProvider(props) {
     );
   };
 
+  const updateUserDB = (updatedUser) => {
+    getToken().then((token) => {
+      fetch(apiUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedUser),
+      });
+    });
+  };
+
   const getCurrentUser = () => {
     const user = localStorage.getItem("userProfile");
     if (!user) {

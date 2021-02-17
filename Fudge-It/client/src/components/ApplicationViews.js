@@ -12,7 +12,8 @@ import { ExpenseTagProvider } from "../providers/ExpenseTagProvider";
 import TagManager from "../pages/TagManager";
 
 const ApplicationViews = () => {
-  const { isLoggedIn } = useContext(UserProfileContext);
+  const { isLoggedIn, getCurrentUser } = useContext(UserProfileContext);
+  const user = getCurrentUser();
 
   return (
     <Switch>
@@ -44,7 +45,11 @@ const ApplicationViews = () => {
 
       <Route path="/settings" exact>
         <TagProvider>
-          {isLoggedIn ? <UserManager /> : <Redirect to="/login" />}
+          {isLoggedIn ? (
+            <UserManager activeUser={user} />
+          ) : (
+            <Redirect to="/login" />
+          )}
         </TagProvider>
       </Route>
 
