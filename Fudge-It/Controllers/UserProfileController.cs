@@ -48,12 +48,15 @@ namespace Fudge_It.Controllers
             if (currentUser.Id != userProfile.Id)
             {
                 return Unauthorized();
-            } 
-            else
-            {
-                _repo.Update(currentUser);
-                return NoContent();
             }
+
+            currentUser.FirstName = userProfile.FirstName;
+            currentUser.LastName = userProfile.LastName;
+            currentUser.Cashflow = userProfile.Cashflow;
+
+            
+            _repo.Update(currentUser);
+            return NoContent();
         }
 
         // This is a simple util to get the current user's profile to check if they're authorized to make the change.

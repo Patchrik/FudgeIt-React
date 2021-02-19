@@ -13,8 +13,11 @@ import {
   Label,
   Row,
 } from "reactstrap";
+import { UserProfileContext } from "../providers/UserProfileProvider";
 
 const UserManager = ({ activeUser }) => {
+  const { updateUserDB } = useContext(UserProfileContext);
+
   const [editing, setEditing] = useState(true);
   const [firstName, setFirstName] = useState(activeUser.firstName);
   const [lastName, setLastName] = useState(activeUser.lastName);
@@ -33,15 +36,15 @@ const UserManager = ({ activeUser }) => {
     toggleEditState();
   };
 
-  const constructEditedUser = () => {
+  const constructAndSaveEditedUser = () => {
     const editedUser = {
       cashflow: cashflow,
-      email: email,
+      // email: email, We're going to add this later let's see if this end point works first
       firstName: firstName,
       lastName: lastName,
       id: activeUser.id,
     };
-    console.log(editedUser);
+    updateUserDB(editedUser);
   };
 
   const labelStyle = { fontSize: "medium", textAlign: "left" };
@@ -105,7 +108,7 @@ const UserManager = ({ activeUser }) => {
                           >
                             Email
                             <Input
-                              disabled={editing}
+                              disabled={true}
                               type="email"
                               name="email"
                               id="exampleEmail"
@@ -153,7 +156,7 @@ const UserManager = ({ activeUser }) => {
                         color="success"
                         className="mx-1"
                         onClick={(e) => {
-                          constructEditedUser();
+                          constructAndSaveEditedUser();
                         }}
                       >
                         Save Edit
