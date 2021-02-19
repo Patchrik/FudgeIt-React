@@ -13,7 +13,7 @@ namespace Fudge_It.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class UserProfileController : ControllerBase
     {
         private readonly IUserProfileRepository _repo;

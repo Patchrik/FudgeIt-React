@@ -13,10 +13,8 @@ import {
   Label,
   Row,
 } from "reactstrap";
-import { UserProfileContext } from "../providers/UserProfileProvider";
 
 const UserManager = ({ activeUser }) => {
-  const { getToken, getCurrentUser } = useContext(UserProfileContext);
   const [editing, setEditing] = useState(true);
   const [firstName, setFirstName] = useState(activeUser.firstName);
   const [lastName, setLastName] = useState(activeUser.lastName);
@@ -27,7 +25,26 @@ const UserManager = ({ activeUser }) => {
     setEditing(!editing);
   };
 
-  const labelStyle = { "font-size": "medium", "text-align": "left" };
+  const cancelEdit = () => {
+    setFirstName(activeUser.firstName);
+    setLastName(activeUser.lastName);
+    setEmail(activeUser.email);
+    setCashflow(activeUser.cashflow);
+    toggleEditState();
+  };
+
+  const constructEditedUser = () => {
+    const editedUser = {
+      cashflow: cashflow,
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      id: activeUser.id,
+    };
+    console.log(editedUser);
+  };
+
+  const labelStyle = { fontSize: "medium", textAlign: "left" };
 
   return (
     <div className="container mt-5">
@@ -53,6 +70,7 @@ const UserManager = ({ activeUser }) => {
                               name="firstName"
                               id="exampleFirstName"
                               value={firstName}
+                              onChange={(e) => setFirstName(e.target.value)}
                             />
                           </Label>
                         </FormGroup>
@@ -71,6 +89,7 @@ const UserManager = ({ activeUser }) => {
                               name="lastName"
                               id="exampleLastName"
                               value={lastName}
+                              onChange={(e) => setLastName(e.target.value)}
                             />
                           </Label>
                         </FormGroup>
@@ -91,6 +110,7 @@ const UserManager = ({ activeUser }) => {
                               name="email"
                               id="exampleEmail"
                               value={email}
+                              onChange={(e) => setEmail(e.target.value)}
                             />
                           </Label>
                         </FormGroup>
@@ -109,6 +129,9 @@ const UserManager = ({ activeUser }) => {
                               name="cashflow"
                               id="exampleCashflow"
                               value={cashflow}
+                              onChange={(e) =>
+                                setCashflow(parseFloat(e.target.value))
+                              }
                             />
                           </Label>
                         </FormGroup>
@@ -130,7 +153,7 @@ const UserManager = ({ activeUser }) => {
                         color="success"
                         className="mx-1"
                         onClick={(e) => {
-                          toggleEditState();
+                          constructEditedUser();
                         }}
                       >
                         Save Edit
@@ -139,7 +162,7 @@ const UserManager = ({ activeUser }) => {
                         color="danger"
                         className="mx-1"
                         onClick={(e) => {
-                          toggleEditState();
+                          cancelEdit();
                         }}
                       >
                         Cancel Edit
