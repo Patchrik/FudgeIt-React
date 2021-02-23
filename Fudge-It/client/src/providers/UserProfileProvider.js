@@ -80,6 +80,13 @@ export function UserProfileProvider(props) {
     );
   };
 
+  const updateEmailANDUserDB = (updatedUser) => {
+    let user = firebase.auth().currentUser;
+    user.updateEmail(updatedUser.email).then(() => {
+      updateUserDB(updatedUser);
+    });
+  };
+
   const updateUserDB = (updatedUser) => {
     getToken().then((token) => {
       fetch(apiUrl, {
@@ -118,6 +125,7 @@ export function UserProfileProvider(props) {
         getCurrentUser,
         isAdmin,
         updateUserDB,
+        updateEmailANDUserDB,
       }}
     >
       {isFirebaseReady ? (

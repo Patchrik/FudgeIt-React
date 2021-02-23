@@ -16,7 +16,7 @@ import {
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 const UserManager = ({ activeUser }) => {
-  const { updateUserDB } = useContext(UserProfileContext);
+  const { updateUserDB, updateEmailANDUserDB } = useContext(UserProfileContext);
 
   const [editing, setEditing] = useState(true);
   const [firstName, setFirstName] = useState(activeUser.firstName);
@@ -39,12 +39,17 @@ const UserManager = ({ activeUser }) => {
   const constructAndSaveEditedUser = () => {
     const editedUser = {
       cashflow: cashflow,
-      // email: email, We're going to add this later let's see if this end point works first
+      email: email,
       firstName: firstName,
       lastName: lastName,
       id: activeUser.id,
     };
-    updateUserDB(editedUser);
+
+    if (email === activeUser.email) {
+      updateUserDB(editedUser);
+    } else {
+      updateEmailANDUserDB(editedUser);
+    }
   };
 
   const labelStyle = { fontSize: "medium", textAlign: "left" };
@@ -108,7 +113,7 @@ const UserManager = ({ activeUser }) => {
                           >
                             Email
                             <Input
-                              disabled={true}
+                              disabled={editing}
                               type="email"
                               name="email"
                               id="exampleEmail"

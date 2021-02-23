@@ -50,6 +50,11 @@ namespace Fudge_It.Controllers
                 return Unauthorized();
             }
 
+            if (currentUser.Email != userProfile.Email && userProfile.Email != null)
+            {
+                currentUser.Email = userProfile.Email;
+            }
+
             currentUser.FirstName = userProfile.FirstName;
             currentUser.LastName = userProfile.LastName;
             currentUser.Cashflow = userProfile.Cashflow;
