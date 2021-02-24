@@ -16,7 +16,7 @@ According to Money Crashers, the number 1 reason that a budget fails is that it�
 
 ### The Solution
 
-Once you know what you are spending the exercise of budgeting becomes easier. But how to track our expenses when the big apps give us too much info or want to sell our data? Well, that’s where Fudge It comes in, Fudge It is a simple to use lightweight expense tracking app that does one thing well making it easy to track and see where your money is going.
+Once you know what you are spending the exercise of budgeting becomes easier. But how do we track our expenses when the big apps give us too much info or want to sell our data? Well, that’s where Fudge It comes in, Fudge It is a simple-to-use lightweight expense tracking app that does one thing well. Making it easy to track and see where your money is going.
 
 ## Screenshots
 <a href="https://flic.kr/s/aHsmU8vhoB" target="_blank">Screenshots</a>
