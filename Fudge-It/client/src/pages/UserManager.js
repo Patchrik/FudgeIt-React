@@ -1,23 +1,27 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   Button,
   Card,
   CardBody,
-  CardSubtitle,
   CardText,
-  CardTitle,
   Col,
   Form,
   FormGroup,
   Input,
   Label,
+  Modal,
+  ModalBody,
+  ModalHeader,
   Row,
 } from "reactstrap";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 const UserManager = ({ activeUser }) => {
-  const { updateUserDB, updateEmailANDUserDB } = useContext(UserProfileContext);
+  const { updateUserDB, updateEmailANDUserDB, logout } = useContext(
+    UserProfileContext
+  );
 
+  const [confirmingEdit, setConfirmingEdit] = useState(false);
   const [editing, setEditing] = useState(true);
   const [firstName, setFirstName] = useState(activeUser.firstName);
   const [lastName, setLastName] = useState(activeUser.lastName);
@@ -161,7 +165,7 @@ const UserManager = ({ activeUser }) => {
                         color="success"
                         className="mx-1"
                         onClick={(e) => {
-                          constructAndSaveEditedUser();
+                          setConfirmingEdit(!confirmingEdit);
                         }}
                       >
                         Save Edit
@@ -180,6 +184,44 @@ const UserManager = ({ activeUser }) => {
                 </CardText>
               </CardBody>
             </Card>
+            <Modal isOpen={confirmingEdit}>
+              <ModalHeader></ModalHeader>
+              <ModalBody>
+                <Card>
+                  <CardBody>
+                    <p>
+                      Your New Info: {firstName} {lastName} - Cashflow:{" "}
+                      {cashflow} - Email: {email}
+                    </p>
+                    <p>
+                      Saving will cause you to be logged out. You will need to
+                      use your new Email if applicable.
+                    </p>
+                  </CardBody>
+                </Card>
+              </ModalBody>
+              <Button
+                color="success"
+                className="mx-1 my-1"
+                onClick={(e) => {
+                  constructAndSaveEditedUser();
+                  setConfirmingEdit(!confirmingEdit);
+                  logout();
+                }}
+              >
+                Save Edit
+              </Button>
+              <Button
+                color="danger"
+                className="mx-1 my-1"
+                onClick={(e) => {
+                  cancelEdit();
+                  setConfirmingEdit(!confirmingEdit);
+                }}
+              >
+                Cancel Edit
+              </Button>
+            </Modal>
           </div>
         </div>
       </div>
