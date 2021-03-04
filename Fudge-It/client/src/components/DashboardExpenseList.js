@@ -9,9 +9,7 @@ const DashboardExpenseList = () => {
     ExpenseContext
   );
 
-  useEffect(() => {
-    getUsersDashboardExpenses();
-  }, [expenses]);
+  useEffect(getUsersDashboardExpenses, [expenses]);
 
   return (
     <div className="Dashboard-Expense-List container">
@@ -37,7 +35,10 @@ const DashboardExpenseList = () => {
               <span className="ml-1 badge badge-primary">Want</span>
             )}
             {exp.expenseTags.map((expTag) => (
-              <span className="mx-1 badge badge-pill badge-secondary d-inline-flex justify-content-start">
+              <span
+                className="mx-1 badge badge-pill badge-secondary d-inline-flex justify-content-start"
+                key={expTag.id}
+              >
                 {expTag.tag.name}
               </span>
             ))}

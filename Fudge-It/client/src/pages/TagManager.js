@@ -20,9 +20,7 @@ const TagManager = () => {
   const { tags, getUsersTags } = useContext(TagContext);
   const { getToken } = useContext(UserProfileContext);
 
-  useEffect(() => {
-    getUsersTags();
-  }, []);
+  useEffect(getUsersTags, []);
 
   const [addingTag, setAddingTag] = useState(false);
   const [formName, setFormName] = useState("");

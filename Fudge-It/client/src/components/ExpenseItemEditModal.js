@@ -66,9 +66,7 @@ const ExpenseItemEditModal = ({
     setTagDropDownOptions(filteredDropdownTags);
   };
 
-  useEffect(() => {
-    filterTagDropDown();
-  }, [expenseTags, tags]);
+  useEffect(filterTagDropDown, [expenseTags, tags]);
 
   const handleTagSelect = (tagId) => {
     if (expenseTags.some((expTag) => expTag.tagId === parseInt(tagId))) {

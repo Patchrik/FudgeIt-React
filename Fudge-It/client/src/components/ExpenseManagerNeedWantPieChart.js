@@ -45,9 +45,7 @@ const ExpenseManagerNeedWantPieChart = () => {
     );
   };
 
-  useEffect(() => {
-    getUsersChartData();
-  }, [expenses]);
+  useEffect(getUsersChartData, [expenses]);
 
   const data = {
     labels: ["Needs", "Wants"],

@@ -59,9 +59,7 @@ const DashboardExpensePieChart = () => {
     );
   };
 
-  useEffect(() => {
-    getUsersDashchart();
-  }, [expenses]);
+  useEffect(getUsersDashchart, [expenses]);
 
   const data = {
     labels: rawData.labels,
