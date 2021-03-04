@@ -57,7 +57,7 @@ namespace Fudge_It.Controllers
             }
 
             var countedExpenseIds = new List<int>();
-
+            var todaysMonth = DateTime.Today.Month;
             foreach (var tagId in usersTagIdList)
             {
                 decimal currentCostCount = 0;
@@ -66,7 +66,7 @@ namespace Fudge_It.Controllers
 
                 foreach (var expTag in currentUsersExTags)
                 {
-                    if (!countedExpenseIds.Contains(expTag.ExpenseId))
+                    if (!countedExpenseIds.Contains(expTag.ExpenseId) && expTag.Expense.ExpenseDate.Month == todaysMonth)
                     {
                         currentCostCount += expTag.Expense.Cost;
                     }

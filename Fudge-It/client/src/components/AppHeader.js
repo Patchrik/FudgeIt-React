@@ -71,6 +71,15 @@ const AppHeader = () => {
                 <NavItem>
                   <NavLink
                     className="nav-bar-link-text"
+                    to="/settings"
+                    tag={Link}
+                  >
+                    Settings
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className="nav-bar-link-text"
                     onClick={logoutAndReturn}
                     tag={Link}
                   >

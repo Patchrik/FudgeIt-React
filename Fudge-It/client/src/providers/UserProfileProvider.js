@@ -80,6 +80,26 @@ export function UserProfileProvider(props) {
     );
   };
 
+  const updateEmailANDUserDB = (updatedUser) => {
+    let user = firebase.auth().currentUser;
+    user.updateEmail(updatedUser.email).then(() => {
+      updateUserDB(updatedUser);
+    });
+  };
+
+  const updateUserDB = (updatedUser) => {
+    getToken().then((token) => {
+      fetch(apiUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedUser),
+      });
+    });
+  };
+
   const getCurrentUser = () => {
     const user = localStorage.getItem("userProfile");
     if (!user) {
@@ -104,6 +124,8 @@ export function UserProfileProvider(props) {
         getToken,
         getCurrentUser,
         isAdmin,
+        updateUserDB,
+        updateEmailANDUserDB,
       }}
     >
       {isFirebaseReady ? (

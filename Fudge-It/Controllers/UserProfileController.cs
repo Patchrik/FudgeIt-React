@@ -6,13 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Fudge_It.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class UserProfileController : ControllerBase
     {
         private readonly IUserProfileRepository _repo;
@@ -37,6 +38,37 @@ namespace Fudge_It.Controllers
                 nameof(GetUserProfile),
                 new { firebaseUserId = userProfile.FirebaseUserId },
                 userProfile);
+        }
+
+        [HttpPut]
+        public IActionResult Put(UserProfile userProfile)
+        {
+            var currentUser = GetCurrentUserProfile();
+
+            if (currentUser.Id != userProfile.Id)
+            {
+                return Unauthorized();
+            }
+
+            if (currentUser.Email != userProfile.Email && userProfile.Email != null)
+            {
+                currentUser.Email = userProfile.Email;
+            }
+
+            currentUser.FirstName = userProfile.FirstName;
+            currentUser.LastName = userProfile.LastName;
+            currentUser.Cashflow = userProfile.Cashflow;
+
+            
+            _repo.Update(currentUser);
+            return NoContent();
+        }
+
+        // This is a simple util to get the current user's profile to check if they're authorized to make the change.
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _repo.GetByFirebaseUserIdBare(firebaseUserId);
         }
     }
 }
